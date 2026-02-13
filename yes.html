@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>22 Reasons 💕</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <div class="floating-bg"></div>
+
+    <div class="container yes-container">
+        <h1 class="yes-title">22 Alasan Kenapa Aku Sayang Kamu 💕</h1>
+
+        <div class="progress-counter">
+            <span id="current-num">1</span> / 22
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+
+        <div class="reason-card" id="reason-card">
+            <div class="reason-number" id="reason-number">#1</div>
+            <div class="reason-text" id="reason-text"></div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn prev-btn" id="prev-btn" onclick="prevReason()" disabled>◀</button>
+            <button class="nav-btn next-btn" id="next-btn" onclick="nextReason()">▶</button>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="music/Nadine Amizah - Beranjak Dewasa.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="music-toggle" onclick="toggleMusic()" title="Toggle music">🔊</button>
+
+    <script src="yes-script.js"></script>
+</body>
+
+</html>
