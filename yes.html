@@ -4,45 +4,843 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>22 Reasons 💕</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <title>22 Alasan Kenapa Aku Sayang Kamu 💕</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0a1a;
+            --bg-card: rgba(255, 255, 255, 0.06);
+            --gold: #f5c842;
+            --pink: #ff6b9d;
+            --coral: #ff8c69;
+            --lavender: #c084fc;
+            --white: #f0eeff;
+            --accent: #ff6b9d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-deep);
+            font-family: 'Nunito', sans-serif;
+            color: var(--white);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(192, 100, 200, 0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 107, 157, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 50%, rgba(15, 15, 40, 1) 0%, rgba(5, 5, 20, 1) 100%);
+            z-index: 0;
+        }
+
+        /* Stars */
+        .stars {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--dur) ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from {
+                opacity: 0.1;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 0.9;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Floating hearts */
+        .hearts-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .float-heart {
+            position: absolute;
+            font-size: var(--size);
+            bottom: -60px;
+            animation: floatUp var(--dur2) ease-in infinite;
+            opacity: 0;
+            left: var(--left);
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-110vh) rotate(360deg);
+            }
+        }
+
+        /* Main layout */
+        .container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            gap: 28px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            animation: fadeDown 0.8s ease both;
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 5vw, 2.6rem);
+            background: linear-gradient(135deg, var(--gold) 0%, var(--coral) 50%, var(--pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.45);
+            letter-spacing: 0.08em;
+            font-weight: 300;
+        }
+
+        /* Progress bar */
+        .progress-wrap {
+            width: min(520px, 90vw);
+            animation: fadeDown 0.8s 0.1s ease both;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .progress-bar-bg {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--pink));
+            border-radius: 99px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 12px rgba(255, 107, 157, 0.5);
+        }
+
+        /* Card */
+        .card {
+            width: min(540px, 92vw);
+            background: rgba(255, 255, 255, 0.055);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 44px 36px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+                0 40px 80px rgba(0, 0, 0, 0.5),
+                0 0 60px rgba(255, 107, 157, 0.06);
+            position: relative;
+            overflow: hidden;
+            animation: cardPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        @keyframes cardPop {
+            from {
+                opacity: 0;
+                transform: scale(0.88) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            left: -60px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 107, 157, 0.12), transparent 70%);
+            pointer-events: none;
+        }
+
+        .reason-num {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 10vw, 4.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), var(--coral));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(245, 200, 66, 0.3));
+        }
+
+        .reason-text {
+            font-size: clamp(0.92rem, 2.5vw, 1.08rem);
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.88);
+            font-weight: 400;
+        }
+
+        .reason-text em {
+            color: var(--pink);
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        /* Special final card */
+        .card.final {
+            background: rgba(255, 107, 157, 0.08);
+            border-color: rgba(255, 107, 157, 0.25);
+            box-shadow:
+                0 0 0 1px rgba(255, 107, 157, 0.1) inset,
+                0 40px 80px rgba(0, 0, 0, 0.5),
+                0 0 80px rgba(255, 107, 157, 0.15);
+        }
+
+        .card.final .reason-num {
+            background: linear-gradient(135deg, var(--pink), var(--lavender));
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            animation: fadeUp 0.8s 0.2s ease both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.08);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .nav-btn.primary {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gold), var(--coral));
+            border: none;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 24px rgba(245, 200, 66, 0.35);
+        }
+
+        .nav-btn.primary:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 32px rgba(245, 200, 66, 0.5);
+        }
+
+        /* Dot indicators */
+        .dots {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: min(300px, 80vw);
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--gold);
+            width: 18px;
+            border-radius: 3px;
+            box-shadow: 0 0 8px rgba(245, 200, 66, 0.5);
+        }
+
+        .dot.visited {
+            background: rgba(255, 107, 157, 0.5);
+        }
+
+        /* Confetti canvas */
+        #confetti {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Transition animation class */
+        .card.slide-out {
+            animation: slideOut 0.3s ease forwards;
+        }
+
+        .card.slide-in {
+            animation: slideIn 0.35s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+        }
+
+        @keyframes slideOut {
+            to {
+                opacity: 0;
+                transform: scale(0.9) translateY(-10px);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Fireworks overlay for final card */
+        .fireworks {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .fw-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: fwBurst var(--fwDur) ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fwBurst {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0.3);
+            }
+        }
+
+        /* Emoji pop for final */
+        .emoji-shower {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 98;
+        }
+
+        /* Mobile tweaks */
+        @media (max-width: 480px) {
+            .card {
+                padding: 32px 22px;
+            }
+        }
+
+        /* Music toggle button (ADDED) */
+        #music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        #music-toggle:hover {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 
 <body>
-    <div class="floating-bg"></div>
 
-    <div class="container yes-container">
-        <h1 class="yes-title">22 Alasan Kenapa Aku Sayang Kamu 💕</h1>
+    <div class="stars" id="stars"></div>
+    <div class="hearts-bg" id="hearts"></div>
+    <canvas id="confetti"></canvas>
+    <div class="fireworks" id="fireworks"></div>
 
-        <div class="progress-counter">
-            <span id="current-num">1</span> / 22
+    <div class="container">
+        <div class="header">
+            <h1>22 Alasan Kenapa Aku<br>Sayang Kamu 💕</h1>
+            <p class="subtitle">Khusus untuk ulang tahunmu yang ke-22 ✨</p>
         </div>
 
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" id="progress-fill"></div>
+        <div class="progress-wrap">
+            <div class="progress-label">
+                <span>Progress</span>
+                <span id="prog-label">1 / 22</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="prog-fill" style="width:4.5%"></div>
+            </div>
         </div>
 
-        <div class="reason-card" id="reason-card">
-            <div class="reason-number" id="reason-number">#1</div>
-            <div class="reason-text" id="reason-text"></div>
+        <div class="card" id="card">
+            <span class="reason-num" id="reason-num">#1</span>
+            <p class="reason-text" id="reason-text"></p>
         </div>
 
-        <div class="nav-buttons">
-            <button class="nav-btn prev-btn" id="prev-btn" onclick="prevReason()" disabled>◀</button>
-            <button class="nav-btn next-btn" id="next-btn" onclick="nextReason()">▶</button>
+        <div class="dots" id="dots"></div>
+
+        <div class="nav">
+            <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>◀</button>
+            <button class="nav-btn primary" id="btn-next" onclick="navigate(1)">💌</button>
         </div>
     </div>
 
+    <!-- ADDED: Audio Player & Toggle Button -->
     <audio id="bg-music" loop>
         <source src="music/Nadine Amizah - Beranjak Dewasa.mp3" type="audio/mpeg">
     </audio>
-
     <button id="music-toggle" onclick="toggleMusic()" title="Toggle music">🔊</button>
 
-    <script src="yes-script.js"></script>
+    <script>
+        const reasons = [
+            {
+                num: "#1",
+                text: "Waktu kita sempet putus, kamu yang duluan balik nyamperin aku. Kalau bukan karena keberanian kamu itu... mungkin kita udah lost forever. Makasih udah lebih berani dari aku 🥺",
+                emoji: "🔑"
+            },
+            {
+                num: "#2",
+                text: "Dari semua orang yang ada di hidupku, cuma kamu yang bisa aku percaya <em>100% tanpa syarat</em>. Bahkan melebihi kepercayaanku pada diriku sendiri.",
+                emoji: "🤝"
+            },
+            {
+                num: "#3",
+                text: "Kamu adalah cewe paling <em>independent</em> yang pernah aku kenal sedunia — tapi begitu sama aku, mode manja aktif dalam 0,3 detik. Dan aku... suka banget itu 😏",
+                emoji: "💅"
+            },
+            {
+                num: "#4",
+                text: "Kamu adalah konsultan penampilan pribadi aku yang <em>tidak pernah aku minta</em> — spesialis kacamata & rambut. Kesel sih, tapi manjaaaa banget.",
+                emoji: "🕶️"
+            },
+            {
+                num: "#5",
+                text: "Kita bisa berantem soal hal sekecil apapun — dan entah gimana caranya, tiap abis berantem aku justru makin sayang. Ini sorcery apa?! 🫠",
+                emoji: "🥊"
+            },
+            {
+                num: "#6",
+                text: "Liat kamu kerja keras, tekun, dan punya ambisi yang besar — itu bikin aku malu sendiri kalau mau males. Kamu adalah motivator aku yang paling efektif tanpa perlu ngomong apa-apa.",
+                emoji: "🔥"
+            },
+            {
+                num: "#7",
+                text: "Suara kamu pas <em>ketiduran di telepon</em> itu jadi lagu tidur favorit aku yang tidak akan pernah ada di Spotify. Exclusive buat aku doang 🎵",
+                emoji: "🌙"
+            },
+            {
+                num: "#8",
+                text: "Tatapan mata kamu itu seriously sesuatu. Aku bisa tenggelam di situ, dan anehnya... aku ga mau diselamatkan. <em>SOS tapi ga mau ditolong.</em>",
+                emoji: "✨"
+            },
+            {
+                num: "#9",
+                text: "Kamu udah <em>2 kali</em> terbang jauh nyamperin aku ke Indonesia. Sementara aku? Belum pernah sekali pun. Aku tau aku berhutang besar, dan itu salah satu janji yang ga akan aku lupa.",
+                emoji: "✈️"
+            },
+            {
+                num: "#10",
+                text: "Kamu selalu bisa <em>ngerti kondisi aku</em> — bahkan sebelum aku selesai jelasin. Kadang tanpa kata-kata pun kamu udah tau. Itu bukan sesuatu yang bisa dipelajari.",
+                emoji: "💆"
+            },
+            {
+                num: "#11",
+                text: "Kamu yang paling keras nuntut aku buat terus grow dan berkembang. Kadang bikin aku kena mental, tapi itu bukti kamu <em>percaya aku bisa lebih</em> — dan itu hal terindah.",
+                emoji: "🌱"
+            },
+            {
+                num: "#12",
+                text: "Kamu mau dengan bangga kenalin aku ke keluarga kamu. Itu bukan hal kecil buat aku — itu salah satu hal yang bikin aku ngerasa <em>benar-benar diterima.</em>",
+                emoji: "🏠"
+            },
+            {
+                num: "#13",
+                text: "Setiap pap yang kamu kirim — selalu cantik, imut, menggemaskan banget. Tapi <em>60% view once.</em> Aku tersiksa setiap hari dan ga bisa protes karena kamu cantik banget. 😭",
+                emoji: "📸"
+            },
+            {
+                num: "#14",
+                text: "Kita cuma pernah ketemu <em>3 hari dari 365 hari</em> dalam setahun. Tapi 3 hari itu jadi core memory terbaik yang aku punya. Kalau bisa, aku mau hidup di 3 hari itu selamanya.",
+                emoji: "🗓️"
+            },
+            {
+                num: "#15",
+                text: "Kamu selalu jujur soal perasaan kamu — walaupun kadang kebenarannya bikin aku sesak dan meleleh <em>secara bersamaan.</em> Itu seni tersendiri.",
+                emoji: "💬"
+            },
+            {
+                num: "#16",
+                text: "Kamu selalu dengerin cerita aku, bahkan yang paling ga penting dan receh sekalipun. Itu mungkin kelihatan kecil, tapi buat aku itu <em>everything.</em>",
+                emoji: "👂"
+            },
+            {
+                num: "#17",
+                text: "Pas aku kecelakaan. Pas ada masalah kerja. Pas drama keluarga. Kamu selalu ada — <em>konsisten, ga pernah pergi.</em> Kamu itu konstanta dalam hidup aku.",
+                emoji: "🛡️"
+            },
+            {
+                num: "#18",
+                text: "Kamu ingat hal-hal kecil tentang aku yang bahkan aku sendiri udah lupa. Kamu tuh kayak diary hidup aku yang bisa jalan sendiri. Dan itu bikin aku <em>merasa sangat diperhatikan.</em>",
+                emoji: "📖"
+            },
+            {
+                num: "#19",
+                text: "Dari semua notifikasi yang masuk setiap hari — notifikasi dari kamu itu yang pertama dan paling aku cari. Selalu. Tanpa terkecuali. <em>Kamu adalah highlight hari-hariku.</em>",
+                emoji: "🔔"
+            },
+            {
+                num: "#20",
+                text: "Kamu selalu manggil aku <em>sayang</em> atau <em>seng</em> — dan percaya atau engga, aku belum pernah bosen dengernya satu kali pun. Makanya tiap dipanggil 'u' rasanya kayak ada yang kurang. 🥲",
+                emoji: "💬"
+            },
+            {
+                num: "#21",
+                text: "Kamu selalu baik sama semua orang — bahkan ke yang sering ga balik baik ke kamu. Itu bukan naif. Itu hati yang <em>besar banget</em>. Dan itu salah satu hal yang paling aku kagumi dari kamu. 🫶",
+                emoji: "🌸"
+            },
+            {
+                num: "#22",
+                text: "Karena kamu bukan cuma pacar. Kamu adalah <em>hadiah terbaik yang pernah Tuhan kasih ke aku</em>. Aku setiap hari bangun tidur masih ga percaya kamu ada. Happy 22nd Birthday, Sayang! 🎂🎉💕",
+                emoji: "🎂",
+                final: true
+            }
+        ];
+
+        let current = 0;
+        let musicPlaying = false; // Added music state
+
+        function renderDots() {
+            const dotsEl = document.getElementById('dots');
+            dotsEl.innerHTML = '';
+            reasons.forEach((_, i) => {
+                const d = document.createElement('div');
+                d.className = 'dot' + (i === current ? ' active' : i < current ? ' visited' : '');
+                d.onclick = () => goTo(i);
+                dotsEl.appendChild(d);
+            });
+        }
+
+        function renderCard(animate = true) {
+            const r = reasons[current];
+            const card = document.getElementById('card');
+            const numEl = document.getElementById('reason-num');
+            const textEl = document.getElementById('reason-text');
+            const progFill = document.getElementById('prog-fill');
+            const progLabel = document.getElementById('prog-label');
+
+            if (animate) {
+                card.classList.add('slide-out');
+                setTimeout(() => {
+                    card.classList.remove('slide-out');
+                    updateContent(r, numEl, textEl, card);
+                    card.classList.add('slide-in');
+                    setTimeout(() => card.classList.remove('slide-in'), 400);
+                }, 280);
+            } else {
+                updateContent(r, numEl, textEl, card);
+            }
+
+            const pct = ((current + 1) / reasons.length) * 100;
+            progFill.style.width = pct + '%';
+            progLabel.textContent = (current + 1) + ' / ' + reasons.length;
+
+            document.getElementById('btn-prev').disabled = current === 0;
+            const nextBtn = document.getElementById('btn-next');
+            if (current === reasons.length - 1) {
+                nextBtn.textContent = '🎂';
+                nextBtn.title = 'Selamat Ulang Tahun!';
+            } else {
+                nextBtn.textContent = '💌';
+            }
+
+            renderDots();
+
+            if (r.final) {
+                setTimeout(() => launchCelebration(), 400);
+            }
+        }
+
+        function updateContent(r, numEl, textEl, card) {
+            numEl.textContent = r.num;
+            textEl.innerHTML = r.text;
+            card.className = 'card' + (r.final ? ' final' : '');
+        }
+
+        function navigate(dir) {
+            const next = current + dir;
+            if (next < 0 || next >= reasons.length) return;
+            if (next === reasons.length && current === reasons.length - 1) {
+                launchCelebration();
+                return;
+            }
+            current = next;
+            renderCard(true);
+        }
+
+        function goTo(i) {
+            if (i === current) return;
+            current = i;
+            renderCard(true);
+        }
+
+        // Stars
+        function createStars() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 120; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                const size = Math.random() * 2.5 + 0.5;
+                s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random() * 100}%;
+      top:${Math.random() * 100}%;
+      --dur:${2 + Math.random() * 4}s;
+      animation-delay:${Math.random() * 5}s;
+    `;
+                container.appendChild(s);
+            }
+        }
+
+        // Floating hearts
+        function createHearts() {
+            const container = document.getElementById('hearts');
+            const emojis = ['💕', '💖', '💗', '💓', '✨', '🌸', '💝', '💞'];
+            for (let i = 0; i < 18; i++) {
+                const h = document.createElement('div');
+                h.className = 'float-heart';
+                h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                const size = 12 + Math.random() * 18;
+                h.style.cssText = `
+      --size:${size}px;
+      --left:${Math.random() * 100}%;
+      --dur2:${8 + Math.random() * 12}s;
+      animation-delay:${Math.random() * 12}s;
+    `;
+                container.appendChild(h);
+            }
+        }
+
+        // Confetti
+        function launchCelebration() {
+            const canvas = document.getElementById('confetti');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#f5c842', '#ff6b9d', '#ff8c69', '#c084fc', '#fff', '#ffd6e7', '#ffe0b2'];
+
+            for (let i = 0; i < 140; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: -20 - Math.random() * 200,
+                    vx: (Math.random() - 0.5) * 3,
+                    vy: 2 + Math.random() * 4,
+                    size: 5 + Math.random() * 9,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    shape: Math.random() > 0.5 ? 'rect' : 'circle',
+                    rot: Math.random() * Math.PI * 2,
+                    rotV: (Math.random() - 0.5) * 0.12,
+                    alpha: 1
+                });
+            }
+
+            let frame = 0;
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.05;
+                    p.rot += p.rotV;
+                    if (p.y > canvas.height + 20) { p.y = -20; p.x = Math.random() * canvas.width; p.vy = 2 + Math.random() * 4; }
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot);
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fillStyle = p.color;
+                    if (p.shape === 'rect') {
+                        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.5);
+                    } else {
+                        ctx.beginPath();
+                        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                });
+                frame++;
+                if (frame < 280) requestAnimationFrame(animate);
+                else ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            animate();
+        }
+
+        // ADDED: Music Logic
+        function toggleMusic() {
+            const music = document.getElementById('bg-music');
+            if (musicPlaying) {
+                music.pause();
+                musicPlaying = false;
+                document.getElementById('music-toggle').textContent = '🔇';
+            } else {
+                music.play();
+                musicPlaying = true;
+                document.getElementById('music-toggle').textContent = '🔊';
+            }
+        }
+
+        // Init
+        createStars();
+        createHearts();
+        renderCard(false);
+
+        // Autoplay attempt
+        const music = document.getElementById('bg-music');
+        music.volume = 0.3;
+        music.play().then(() => {
+            musicPlaying = true;
+            document.getElementById('music-toggle').textContent = '🔊';
+        }).catch(() => {
+            document.addEventListener('click', () => {
+                music.play().catch(() => { });
+                musicPlaying = true;
+                document.getElementById('music-toggle').textContent = '🔊';
+            }, { once: true });
+        });
+
+        // Keyboard nav
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === ' ') navigate(1);
+            if (e.key === 'ArrowLeft') navigate(-1);
+        });
+    </script>
 </body>
 
 </html>
