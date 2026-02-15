@@ -280,16 +280,60 @@
                 height: 160px;
             }
         }
+
+        /* ===== COUNTDOWN OVERLAY ===== */
+        #countdown-overlay {
+            position: fixed;
+            inset: 0;
+            background: #0a0a1a;
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease;
+        }
+
+        #countdown-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 0.8s ease infinite alternate;
+            transition: opacity 0.2s ease;
+            text-align: center;
+            line-height: 1.2;
+            padding: 0 20px;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            to {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
 <body>
 
+    <!-- Countdown Overlay -->
+    <div id="countdown-overlay">
+        <div id="countdown-num">3</div>
+    </div>
+
     <div class="stars" id="stars"></div>
     <div class="hearts-bg" id="hearts"></div>
 
-    <div class="container">
-        <h1>Kamu mau jadi orang paling bahagia di umur 22? 🎂</h1>
+    <div class="container" style="opacity:0">
+        <h1 id="main-title"></h1>
 
         <div class="gif-container">
             <img id="cat-gif" src="https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif"
@@ -334,6 +378,75 @@
                 container.appendChild(h);
             }
         })();
+
+        // ===== COUNTDOWN + TYPING + FADE-IN SEQUENCE =====
+        const titleText = 'Kamu mau jadi orang paling bahagia di umur 22? 🎂';
+        const containerEl = document.querySelector('.container');
+        const gifContainer = document.querySelector('.gif-container');
+        const buttonsContainer = document.querySelector('.buttons');
+        const h1 = document.getElementById('main-title');
+
+        // Hide GIF & buttons initially
+        gifContainer.style.opacity = '0';
+        buttonsContainer.style.opacity = '0';
+
+        // --- Typing effect ---
+        function typeWriter(element, text, speed, onDone) {
+            element.textContent = '';
+            element.style.borderRight = '2px solid var(--gold)';
+            const chars = [...text];
+            let i = 0;
+            const timer = setInterval(() => {
+                if (i < chars.length) {
+                    element.textContent += chars[i];
+                    i++;
+                } else {
+                    clearInterval(timer);
+                    setTimeout(() => { element.style.borderRight = 'none'; }, 800);
+                    if (onDone) onDone();
+                }
+            }, speed);
+        }
+
+        // --- Staggered fade in of GIF + buttons ---
+        function revealContent() {
+            gifContainer.style.transition = 'opacity 0.6s ease';
+            gifContainer.style.opacity = '1';
+            setTimeout(() => {
+                buttonsContainer.style.transition = 'opacity 0.6s ease';
+                buttonsContainer.style.opacity = '1';
+            }, 400);
+        }
+
+        // --- Countdown ---
+        const overlay = document.getElementById('countdown-overlay');
+        const numEl = document.getElementById('countdown-num');
+        const steps = ['3', '2', '1', '💌 Ada pesan untukmu...'];
+        let step = 0;
+
+        const tick = setInterval(() => {
+            step++;
+            if (step < steps.length) {
+                numEl.style.opacity = '0';
+                setTimeout(() => {
+                    numEl.textContent = steps[step];
+                    if (step === steps.length - 1) numEl.style.fontSize = 'clamp(1.5rem, 5vw, 3rem)';
+                    numEl.style.opacity = '1';
+                }, 200);
+            } else {
+                clearInterval(tick);
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.remove();
+                    // Show container, then start typing
+                    containerEl.style.transition = 'opacity 0.8s ease';
+                    containerEl.style.opacity = '1';
+                    setTimeout(() => {
+                        typeWriter(h1, titleText, 55, revealContent);
+                    }, 300);
+                }, 800);
+            }
+        }, 1000);
 
         // ===== GIF STAGES =====
         const gifStages = [
