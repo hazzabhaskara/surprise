@@ -421,6 +421,9 @@
             <p>Nambah terus angka itu bareng kamu, sampai kita ga perlu <em>chatting</em> lagi karena udah serumah.</p>
 
             <button class="btn-final" onclick="claimGift()">Amin! ❤️</button>
+            <button class="btn-final" onclick="backToYes()"
+                style="margin-top:10px; background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); font-size:0.9rem; padding:12px 28px;">←
+                Kembali ke 22 Alasan</button>
         </div>
     </div>
 
@@ -539,6 +542,14 @@
         // Aksi Tombol Final
         function claimGift() {
             alert("Happy Birthday Eva ke-22! 🎉 Coba sekarang cek laci meja belajarmu, kado aslinya ada di sana!");
+        }
+
+        function backToYes() {
+            document.body.style.transition = "opacity 0.8s ease";
+            document.body.style.opacity = "0";
+            setTimeout(() => {
+                window.location.href = "yes.html";
+            }, 800);
         }
 
         // Mulai Story
