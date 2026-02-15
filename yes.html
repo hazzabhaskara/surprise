@@ -1035,6 +1035,16 @@
     <audio id="bg-music" loop>
         <source src="Nadin_Amizah_-_Semua_Aku_Dirayakan.mp3" type="audio/mpeg">
     </audio>
+
+    <audio id="vn-audio">
+        <source src="voice-note-eva.mp4" type="audio/mp4">
+    </audio>
+
+    <button id="vn-play-btn" onclick="playVoiceNote()"
+        style="display: none; position: relative; z-index: 100; margin-top: 20px; background: linear-gradient(135deg, #f5c842, #ff6b9d); color: #1a1a2e; border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4); transition: transform 0.2s;">
+        ▶️ Dengerin Suara Aku
+    </button>
+
     <button id="music-toggle" onclick="toggleMusic()">🔊</button>
 
     <div id="heart-counter">Hati tertangkap: <span id="heart-count">0</span> / 22</div>
@@ -1379,9 +1389,17 @@
                 setTimeout(() => showMilestone(r.milestone, r.accent), 600);
             }
 
-            // Final card confetti
+            // Final card confetti + voice note
             if (r.final) {
                 setTimeout(() => launchFinalCelebration(), 500);
+
+                // Cinematic fade out music
+                fadeOutMusic();
+
+                // Show secret voice note button inside card
+                const vnBtn = document.getElementById('vn-play-btn');
+                document.getElementById('card').appendChild(vnBtn);
+                vnBtn.style.display = 'inline-block';
             }
         }
 
@@ -1661,6 +1679,34 @@
                 music.play(); musicPlaying = true;
                 document.getElementById('music-toggle').textContent = '🔊';
             }
+        }
+
+        // ════════════════════════════════════════════════════════
+        //  FADE OUT & VOICE NOTE 🎙️
+        // ════════════════════════════════════════════════════════
+        function fadeOutMusic() {
+            const music = document.getElementById('bg-music');
+            let vol = music.volume;
+            const fadeInterval = setInterval(() => {
+                if (vol > 0.05) {
+                    vol -= 0.05;
+                    music.volume = vol;
+                } else {
+                    music.pause();
+                    clearInterval(fadeInterval);
+                    musicPlaying = false;
+                    document.getElementById('music-toggle').textContent = '🔇';
+                }
+            }, 200);
+        }
+
+        function playVoiceNote() {
+            const vn = document.getElementById('vn-audio');
+            vn.play();
+
+            const btn = document.getElementById('vn-play-btn');
+            btn.textContent = "I love you 💕";
+            btn.style.pointerEvents = "none";
         }
 
         // ════════════════════════════════════════════════════════
