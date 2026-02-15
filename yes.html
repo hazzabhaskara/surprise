@@ -6,18 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>22 Alasan Kenapa Aku Sayang Kamu 💕</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet">
+
     <style>
         :root {
-            --bg-deep: #0a0a1a;
-            --bg-card: rgba(255, 255, 255, 0.06);
-            --gold: #f5c842;
-            --pink: #ff6b9d;
-            --coral: #ff8c69;
-            --lavender: #c084fc;
-            --white: #f0eeff;
+            --bg: #080810;
+            --card-glow: #ff6b9d;
             --accent: #ff6b9d;
+            --gold: #f5c842;
+            --white: #f0eeff;
         }
 
         * {
@@ -28,23 +26,36 @@
 
         body {
             min-height: 100vh;
-            background: var(--bg-deep);
+            background: var(--bg);
             font-family: 'Nunito', sans-serif;
             color: var(--white);
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Animated gradient background */
-        body::before {
-            content: '';
+        /* ── BACKGROUND LAYERS ── */
+        #bg-gradient {
             position: fixed;
             inset: 0;
-            background:
-                radial-gradient(ellipse at 20% 20%, rgba(192, 100, 200, 0.18) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 80%, rgba(255, 107, 157, 0.15) 0%, transparent 60%),
-                radial-gradient(ellipse at 50% 50%, rgba(15, 15, 40, 1) 0%, rgba(5, 5, 20, 1) 100%);
             z-index: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(10, 10, 30, 1) 0%, rgba(4, 4, 16, 1) 100%);
+            transition: background 1s ease;
+        }
+
+        #bg-blob {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.18;
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Stars */
@@ -64,18 +75,18 @@
 
         @keyframes twinkle {
             from {
-                opacity: 0.1;
+                opacity: 0.05;
                 transform: scale(0.8);
             }
 
             to {
-                opacity: 0.9;
-                transform: scale(1.2);
+                opacity: 0.8;
+                transform: scale(1.3);
             }
         }
 
-        /* Floating hearts */
-        .hearts-bg {
+        /* Floating particles */
+        .particles {
             position: fixed;
             inset: 0;
             z-index: 0;
@@ -83,36 +94,37 @@
             overflow: hidden;
         }
 
-        .float-heart {
+        .particle {
             position: absolute;
-            font-size: var(--size);
+            font-size: var(--sz);
             bottom: -60px;
-            animation: floatUp var(--dur2) ease-in infinite;
-            opacity: 0;
             left: var(--left);
+            animation: floatUp var(--spd) ease-in infinite;
+            animation-delay: var(--delay);
+            opacity: 0;
         }
 
         @keyframes floatUp {
             0% {
                 opacity: 0;
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0) rotate(0deg) scale(0.5);
             }
 
             10% {
-                opacity: 0.6;
+                opacity: 0.7;
             }
 
             90% {
-                opacity: 0.3;
+                opacity: 0.2;
             }
 
             100% {
                 opacity: 0;
-                transform: translateY(-110vh) rotate(360deg);
+                transform: translateY(-110vh) rotate(720deg) scale(1.2);
             }
         }
 
-        /* Main layout */
+        /* ── MAIN LAYOUT ── */
         .container {
             position: relative;
             z-index: 1;
@@ -121,14 +133,32 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px 20px;
-            gap: 28px;
+            padding: 24px 20px;
+            gap: 22px;
         }
 
-        /* Header */
+        /* ── HEADER ── */
         .header {
             text-align: center;
             animation: fadeDown 0.8s ease both;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 5vw, 2.4rem);
+            line-height: 1.3;
+            background: linear-gradient(135deg, var(--gold) 0%, #ff8c69 50%, #ff6b9d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            margin-top: 6px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 0.1em;
+            font-weight: 300;
         }
 
         @keyframes fadeDown {
@@ -143,25 +173,7 @@
             }
         }
 
-        .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.6rem, 5vw, 2.6rem);
-            background: linear-gradient(135deg, var(--gold) 0%, var(--coral) 50%, var(--pink) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.3;
-            margin-bottom: 6px;
-        }
-
-        .subtitle {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.45);
-            letter-spacing: 0.08em;
-            font-weight: 300;
-        }
-
-        /* Progress bar */
+        /* ── PROGRESS ── */
         .progress-wrap {
             width: min(520px, 90vw);
             animation: fadeDown 0.8s 0.1s ease both;
@@ -170,117 +182,235 @@
         .progress-label {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.35);
             margin-bottom: 8px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+
+        .progress-label #prog-num {
+            color: var(--accent);
+            font-size: 0.9rem;
+            transition: color 0.6s;
         }
 
         .progress-bar-bg {
-            height: 5px;
-            background: rgba(255, 255, 255, 0.08);
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 99px;
             overflow: hidden;
         }
 
         .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--gold), var(--pink));
+            background: linear-gradient(90deg, var(--accent), var(--gold));
             border-radius: 99px;
-            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 12px rgba(255, 107, 157, 0.5);
+            transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1), background 1s;
+            box-shadow: 0 0 10px var(--accent);
         }
 
-        /* Card */
+        /* ── REASON NUMBER ── */
+        .reason-num-tag {
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        /* ── CARD ── */
+        .card-wrap {
+            position: relative;
+            width: min(560px, 94vw);
+            touch-action: pan-y;
+            user-select: none;
+        }
+
         .card {
-            width: min(540px, 92vw);
+            width: 100%;
             background: rgba(255, 255, 255, 0.055);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
             padding: 44px 36px;
             text-align: center;
-            backdrop-filter: blur(20px);
-            box-shadow:
-                0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-                0 40px 80px rgba(0, 0, 0, 0.5),
-                0 0 60px rgba(255, 107, 157, 0.06);
+            backdrop-filter: blur(24px);
             position: relative;
             overflow: hidden;
-            animation: cardPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            transition:
+                border-color 0.8s ease,
+                box-shadow 0.8s ease,
+                transform 0.3s ease;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+                0 40px 80px rgba(0, 0, 0, 0.6),
+                0 0 80px rgba(255, 107, 157, 0.08);
+            cursor: grab;
         }
 
-        @keyframes cardPop {
-            from {
-                opacity: 0;
-                transform: scale(0.88) translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+        .card:active {
+            cursor: grabbing;
         }
 
+        /* Shimmer overlay */
         .card::before {
             content: '';
             position: absolute;
-            top: -60px;
-            left: -60px;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(255, 107, 157, 0.12), transparent 70%);
+            inset: 0;
+            background: conic-gradient(from 0deg at 50% 50%,
+                    transparent 0%, rgba(255, 255, 255, 0.02) 25%,
+                    transparent 50%, rgba(255, 255, 255, 0.02) 75%, transparent 100%);
+            animation: cardShimmer 8s linear infinite;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        @keyframes cardShimmer {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Card glow streak */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+            animation: cardStreak 6s ease-in-out infinite;
             pointer-events: none;
         }
 
-        .reason-num {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.8rem, 10vw, 4.5rem);
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--gold), var(--coral));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            margin-bottom: 20px;
+        @keyframes cardStreak {
+            0% {
+                left: -100%;
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            60% {
+                left: 150%;
+                opacity: 0;
+            }
+
+            100% {
+                left: 150%;
+                opacity: 0;
+            }
+        }
+
+        /* ── CARD ICON ── */
+        .card-icon {
+            font-size: 4rem;
             display: block;
-            filter: drop-shadow(0 0 20px rgba(245, 200, 66, 0.3));
+            margin-bottom: 16px;
+            filter: drop-shadow(0 0 20px var(--accent));
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-8px) scale(1.08);
+            }
+        }
+
+        .big-num {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 12vw, 6rem);
+            font-weight: 700;
+            line-height: 1;
+            display: block;
+            margin-bottom: 20px;
+            transition: color 0.6s, text-shadow 0.6s;
+            position: relative;
+            z-index: 1;
         }
 
         .reason-text {
-            font-size: clamp(0.92rem, 2.5vw, 1.08rem);
-            line-height: 1.75;
+            font-size: clamp(0.9rem, 2.4vw, 1.05rem);
+            line-height: 1.8;
             color: rgba(255, 255, 255, 0.88);
             font-weight: 400;
+            position: relative;
+            z-index: 1;
         }
 
         .reason-text em {
-            color: var(--pink);
             font-style: normal;
-            font-weight: 700;
+            font-weight: 800;
+            transition: color 0.6s;
         }
 
-        /* Special final card */
-        .card.final {
-            background: rgba(255, 107, 157, 0.08);
-            border-color: rgba(255, 107, 157, 0.25);
-            box-shadow:
-                0 0 0 1px rgba(255, 107, 157, 0.1) inset,
-                0 40px 80px rgba(0, 0, 0, 0.5),
-                0 0 80px rgba(255, 107, 157, 0.15);
+        /* ── SWIPE HINT ── */
+        .swipe-hint {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 0.1em;
+            text-align: center;
+            animation: swipePulse 2s ease-in-out infinite;
         }
 
-        .card.final .reason-num {
-            background: linear-gradient(135deg, var(--pink), var(--lavender));
-            -webkit-background-clip: text;
-            background-clip: text;
+        @keyframes swipePulse {
+
+            0%,
+            100% {
+                opacity: 0.25;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
         }
 
-        /* Navigation */
+        /* ── DOTS ── */
+        .dots {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: min(320px, 85vw);
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .dot.active {
+            background: var(--accent);
+            width: 20px;
+            border-radius: 3px;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .dot.visited {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        /* ── NAV BUTTONS ── */
         .nav {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
             animation: fadeUp 0.8s 0.2s ease both;
         }
 
@@ -297,11 +427,11 @@
         }
 
         .nav-btn {
-            width: 52px;
-            height: 52px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.07);
             color: white;
             font-size: 1.1rem;
             cursor: pointer;
@@ -314,60 +444,207 @@
 
         .nav-btn:hover:not(:disabled) {
             background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: scale(1.08);
+            transform: scale(1.1);
         }
 
         .nav-btn:disabled {
-            opacity: 0.3;
+            opacity: 0.25;
             cursor: not-allowed;
         }
 
         .nav-btn.primary {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--gold), var(--coral));
+            width: 68px;
+            height: 68px;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, var(--accent), var(--gold));
             border: none;
-            font-size: 1.4rem;
-            box-shadow: 0 8px 24px rgba(245, 200, 66, 0.35);
+            box-shadow: 0 8px 28px rgba(255, 107, 157, 0.45);
+            transition: all 0.25s, background 0.8s, box-shadow 0.8s;
         }
 
         .nav-btn.primary:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 32px rgba(245, 200, 66, 0.5);
+            transform: scale(1.12) translateY(-3px);
+            box-shadow: 0 14px 40px rgba(255, 107, 157, 0.6);
         }
 
-        /* Dot indicators */
-        .dots {
+        /* ── CARD TRANSITIONS ── */
+        .card.exit-left {
+            animation: exitLeft 0.35s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+        }
+
+        .card.exit-right {
+            animation: exitRight 0.35s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+        }
+
+        .card.enter-right {
+            animation: enterRight 0.45s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+        }
+
+        .card.enter-left {
+            animation: enterLeft 0.45s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+        }
+
+        @keyframes exitLeft {
+            to {
+                opacity: 0;
+                transform: translateX(-120%) rotate(-6deg) scale(0.85);
+            }
+        }
+
+        @keyframes exitRight {
+            to {
+                opacity: 0;
+                transform: translateX(120%) rotate(6deg) scale(0.85);
+            }
+        }
+
+        @keyframes enterRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%) rotate(4deg) scale(0.88);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0) rotate(0) scale(1);
+            }
+        }
+
+        @keyframes enterLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100%) rotate(-4deg) scale(0.88);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0) rotate(0) scale(1);
+            }
+        }
+
+        /* ── FINAL CARD ── */
+        .card.final-card {
+            border-color: rgba(255, 215, 0, 0.3);
+            background: rgba(255, 107, 157, 0.07);
+        }
+
+        .final-msg {
+            font-size: clamp(1rem, 2.8vw, 1.2rem);
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .final-sub {
+            font-size: clamp(0.85rem, 2.2vw, 0.98rem);
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.8;
+        }
+
+        .final-sub em {
+            font-style: normal;
+            font-weight: 800;
+            color: #ff6b9d;
+        }
+
+        /* ── MILESTONE BURST ── */
+        .burst-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            pointer-events: none;
             display: flex;
-            gap: 5px;
             align-items: center;
-            flex-wrap: wrap;
             justify-content: center;
-            max-width: min(300px, 80vw);
         }
 
-        .dot {
-            width: 6px;
-            height: 6px;
+        .burst-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 8vw, 5rem);
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.2;
+            opacity: 0;
+            transform: scale(0.3);
+            transition: none;
+        }
+
+        .burst-text.pop {
+            animation: burstPop 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes burstPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.2) rotate(-10deg);
+            }
+
+            30% {
+                opacity: 1;
+                transform: scale(1.15) rotate(3deg);
+            }
+
+            55% {
+                opacity: 1;
+                transform: scale(0.95) rotate(-1deg);
+            }
+
+            70% {
+                opacity: 1;
+                transform: scale(1.02);
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.1);
+            }
+        }
+
+        /* ── SPARKLE PARTICLES ── */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 300;
+            font-size: var(--sz);
+            animation: sparklePop 1s ease-out forwards;
+        }
+
+        @keyframes sparklePop {
+            from {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0.2);
+            }
+        }
+
+        /* ── RIPPLE on card ── */
+        .ripple {
+            position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.18);
-            cursor: pointer;
-            transition: all 0.3s;
+            transform: scale(0);
+            pointer-events: none;
+            animation: rippleOut 0.7s ease-out forwards;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.4;
         }
 
-        .dot.active {
-            background: var(--gold);
-            width: 18px;
-            border-radius: 3px;
-            box-shadow: 0 0 8px rgba(245, 200, 66, 0.5);
+        @keyframes rippleOut {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
 
-        .dot.visited {
-            background: rgba(255, 107, 157, 0.5);
-        }
-
-        /* Confetti canvas */
+        /* ── CONFETTI CANVAS ── */
         #confetti {
             position: fixed;
             inset: 0;
@@ -375,113 +652,79 @@
             z-index: 999;
         }
 
-        /* Transition animation class */
-        .card.slide-out {
-            animation: slideOut 0.3s ease forwards;
-        }
-
-        .card.slide-in {
-            animation: slideIn 0.35s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
-        }
-
-        @keyframes slideOut {
-            to {
-                opacity: 0;
-                transform: scale(0.9) translateY(-10px);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(15px);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-
-        /* Fireworks overlay for final card */
-        .fireworks {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 100;
-            overflow: hidden;
-        }
-
-        .fw-particle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            animation: fwBurst var(--fwDur) ease-out forwards;
-            opacity: 0;
-        }
-
-        @keyframes fwBurst {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-
-            100% {
-                opacity: 0;
-                transform: translate(var(--tx), var(--ty)) scale(0.3);
-            }
-        }
-
-        /* Emoji pop for final */
-        .emoji-shower {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 98;
-        }
-
-        /* Mobile tweaks */
-        @media (max-width: 480px) {
-            .card {
-                padding: 32px 22px;
-            }
-        }
-
-        /* Music toggle button (ADDED) */
+        /* ── MUSIC TOGGLE ── */
         #music-toggle {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 50%;
             width: 52px;
             height: 52px;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             cursor: pointer;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s;
             z-index: 1000;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             color: white;
         }
 
         #music-toggle:hover {
-            transform: scale(1.1);
+            transform: scale(1.12);
+        }
+
+        /* ── SCREEN FLASH ── */
+        #flash {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            pointer-events: none;
+            background: white;
+            opacity: 0;
+        }
+
+        #flash.go {
+            animation: flashOut 0.4s ease-out forwards;
+        }
+
+        @keyframes flashOut {
+            0% {
+                opacity: 0.35;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @media (max-width:480px) {
+            .card {
+                padding: 32px 22px;
+            }
         }
     </style>
 </head>
 
 <body>
 
+    <div id="bg-gradient"></div>
+    <div id="bg-blob">
+        <div class="blob" id="blob1" style="width:500px;height:500px;top:-100px;left:-150px;"></div>
+        <div class="blob" id="blob2" style="width:400px;height:400px;bottom:-80px;right:-100px;"></div>
+        <div class="blob" id="blob3" style="width:280px;height:280px;top:40%;left:60%;"></div>
+    </div>
     <div class="stars" id="stars"></div>
-    <div class="hearts-bg" id="hearts"></div>
+    <div class="particles" id="particles"></div>
+    <div id="flash"></div>
     <canvas id="confetti"></canvas>
-    <div class="fireworks" id="fireworks"></div>
+    <div class="burst-overlay" id="burst-overlay">
+        <div class="burst-text" id="burst-text"></div>
+    </div>
 
     <div class="container">
         <div class="header">
@@ -492,17 +735,23 @@
         <div class="progress-wrap">
             <div class="progress-label">
                 <span>Progress</span>
-                <span id="prog-label">1 / 22</span>
+                <span><span id="prog-num">1</span> / 22</span>
             </div>
             <div class="progress-bar-bg">
                 <div class="progress-bar-fill" id="prog-fill" style="width:4.5%"></div>
             </div>
         </div>
 
-        <div class="card" id="card">
-            <span class="reason-num" id="reason-num">#1</span>
-            <p class="reason-text" id="reason-text"></p>
+        <div class="card-wrap" id="card-wrap">
+            <div class="card" id="card">
+                <span class="reason-num-tag" id="reason-tag">Alasan #1</span>
+                <span class="card-icon" id="card-icon">🔑</span>
+                <span class="big-num" id="big-num">#1</span>
+                <p class="reason-text" id="reason-text"></p>
+            </div>
         </div>
+
+        <p class="swipe-hint" id="swipe-hint">← geser untuk navigasi →</p>
 
         <div class="dots" id="dots"></div>
 
@@ -512,316 +761,587 @@
         </div>
     </div>
 
-    <!-- Audio Player -->
     <audio id="bg-music" loop>
         <source src="Nadin_Amizah_-_Semua_Aku_Dirayakan.mp3" type="audio/mpeg">
     </audio>
-    <button id="music-toggle" onclick="toggleMusic()" title="Toggle music">🔊</button>
+    <button id="music-toggle" onclick="toggleMusic()">🔊</button>
 
     <script>
+        // ════════════════════════════════════════════════════════
+        //  REASON DATA — each has its own color soul 🎨
+        // ════════════════════════════════════════════════════════
         const reasons = [
             {
-                num: "#1",
-                text: "Waktu kita sempet putus, kamu yang duluan balik nyamperin aku. Kalau bukan karena keberanian kamu itu... mungkin kita udah lost forever. Makasih udah lebih berani dari aku 🥺",
-                emoji: "🔑"
+                num: "#1", tag: "Alasan #1", icon: "🔑",
+                text: "Waktu kita sempet putus, kamu yang duluan balik nyamperin aku. Kalau bukan karena keberanian kamu itu... mungkin kita udah <em>lost forever</em>. Makasih udah lebih berani dari aku 🥺",
+                accent: "#FF2D55", gold: "#FF6B6B",
+                blob1: "#FF2D55", blob2: "#C1121F",
+                particles: ["💪", "🔑", "❤️‍🔥", "✨"],
+                milestone: null
             },
             {
-                num: "#2",
+                num: "#2", tag: "Alasan #2", icon: "🤝",
                 text: "Dari semua orang yang ada di hidupku, cuma kamu yang bisa aku percaya <em>100% tanpa syarat</em>. Bahkan melebihi kepercayaanku pada diriku sendiri.",
-                emoji: "🤝"
+                accent: "#FFD700", gold: "#FFA500",
+                blob1: "#FFD700", blob2: "#B8860B",
+                particles: ["🤝", "💛", "⭐", "🌟"],
+                milestone: null
             },
             {
-                num: "#3",
+                num: "#3", tag: "Alasan #3", icon: "💅",
                 text: "Kamu adalah cewe paling <em>independent</em> yang pernah aku kenal sedunia, tapi begitu sama aku, mode manja aktif dalam 0,3 detik. Dan aku... suka banget itu 😏",
-                emoji: "💅"
+                accent: "#BF5AF2", gold: "#9B59B6",
+                blob1: "#BF5AF2", blob2: "#6C3483",
+                particles: ["💅", "👑", "💜", "✨"],
+                milestone: null
             },
             {
-                num: "#4",
+                num: "#4", tag: "Alasan #4", icon: "🕶️",
                 text: "Kamu adalah konsultan penampilan pribadi aku yang <em>tidak pernah aku minta</em>, spesialis kacamata & rambut. Kesel sih, tapi manjaaaa banget.",
-                emoji: "🕶️"
+                accent: "#FF375F", gold: "#FF69B4",
+                blob1: "#FF375F", blob2: "#C0392B",
+                particles: ["🕶️", "💄", "👗", "🌸"],
+                milestone: null
             },
             {
-                num: "#5",
-                text: "Kita bisa berantem soal hal sekecil apapun, dan entah gimana caranya, tiap abis berantem aku justru makin sayang. Ini sorcery apa?! 🫠",
-                emoji: "🥊"
+                num: "#5", tag: "Alasan #5", icon: "🥊",
+                text: "Kita bisa berantem soal hal sekecil apapun, dan entah gimana caranya, tiap abis berantem aku justru <em>makin sayang</em>. Ini sorcery apa?! 🫠",
+                accent: "#FF6B00", gold: "#FF9F0A",
+                blob1: "#FF6B00", blob2: "#E74C3C",
+                particles: ["🥊", "🔥", "💥", "❤️"],
+                milestone: { text: "5 Alasan! 🔥", sub: "Baru setengah jalan~" }
             },
             {
-                num: "#6",
-                text: "Liat kamu kerja keras, tekun, dan punya ambisi yang besar. Itu bikin aku malu sendiri kalau mau males. Kamu adalah motivator aku yang paling efektif tanpa perlu ngomong apa-apa.",
-                emoji: "🔥"
+                num: "#6", tag: "Alasan #6", icon: "🌱",
+                text: "Liat kamu kerja keras, tekun, dan punya ambisi yang besar. Itu bikin aku malu sendiri kalau mau males. Kamu adalah <em>motivator aku yang paling efektif</em> tanpa perlu ngomong apa-apa.",
+                accent: "#30D158", gold: "#2ECC71",
+                blob1: "#30D158", blob2: "#1A6B36",
+                particles: ["🌱", "🌿", "💚", "⚡"],
+                milestone: null
             },
             {
-                num: "#7",
+                num: "#7", tag: "Alasan #7", icon: "🌙",
                 text: "Suara kamu pas <em>ketiduran di telepon</em> itu jadi lagu tidur favorit aku yang tidak akan pernah ada di Spotify. Exclusive buat aku doang 🎵",
-                emoji: "🌙"
+                accent: "#0A84FF", gold: "#5AC8FA",
+                blob1: "#0A84FF", blob2: "#0D3B8F",
+                particles: ["🌙", "⭐", "🌠", "💤"],
+                milestone: null
             },
             {
-                num: "#8",
+                num: "#8", tag: "Alasan #8", icon: "✨",
                 text: "Tatapan mata kamu itu seriously sesuatu. Aku bisa tenggelam di situ, dan anehnya... aku ga mau diselamatkan. <em>SOS tapi ga mau ditolong.</em>",
-                emoji: "✨"
+                accent: "#5AC8FA", gold: "#32ADE6",
+                blob1: "#5AC8FA", blob2: "#0A84FF",
+                particles: ["👀", "✨", "💫", "🌊"],
+                milestone: null
             },
             {
-                num: "#9",
-                text: "Kamu udah <em>2 kali</em> terbang jauh nyamperin aku ke Indonesia. Sementara aku? Belum pernah sekali pun. Aku tau aku berhutang besar, dan itu salah satu janji yang ga akan aku lupa.",
-                emoji: "✈️"
+                num: "#9", tag: "Alasan #9", icon: "✈️",
+                text: "Kamu udah <em>2 kali terbang jauh</em> nyamperin aku ke Indonesia. Sementara aku? Belum pernah sekali pun. Aku tau aku berhutang besar, dan itu salah satu janji yang ga akan aku lupa.",
+                accent: "#32ADE6", gold: "#5AC8FA",
+                blob1: "#32ADE6", blob2: "#1A527D",
+                particles: ["✈️", "🌏", "🛫", "☁️"],
+                milestone: null
             },
             {
-                num: "#10",
+                num: "#10", tag: "Alasan #10", icon: "💆",
                 text: "Kamu selalu bisa <em>ngerti kondisi aku</em>, bahkan sebelum aku selesai jelasin. Kadang tanpa kata-kata pun kamu udah tau. Itu bukan sesuatu yang bisa dipelajari.",
-                emoji: "💆"
+                accent: "#C084FC", gold: "#A855F7",
+                blob1: "#C084FC", blob2: "#6B21A8",
+                particles: ["🔮", "💜", "🌌", "✨"],
+                milestone: { text: "10 Alasan! 💫", sub: "Setengah jalan, terus lanjut ya!" }
             },
             {
-                num: "#11",
+                num: "#11", tag: "Alasan #11", icon: "🔥",
                 text: "Kamu yang paling keras nuntut aku buat terus grow dan berkembang. Kadang bikin aku kena mental, tapi itu bukti kamu <em>percaya aku bisa lebih</em>. Dan itu hal terindah.",
-                emoji: "🌱"
+                accent: "#34C759", gold: "#30D158",
+                blob1: "#34C759", blob2: "#166534",
+                particles: ["🔥", "💪", "🌟", "⬆️"],
+                milestone: null
             },
             {
-                num: "#12",
+                num: "#12", tag: "Alasan #12", icon: "🏠",
                 text: "Kamu mau dengan bangga kenalin aku ke keluarga kamu. Itu bukan hal kecil buat aku. Itu salah satu hal yang bikin aku ngerasa <em>benar-benar diterima.</em>",
-                emoji: "🏠"
+                accent: "#FF9F0A", gold: "#FFD60A",
+                blob1: "#FF9F0A", blob2: "#92400E",
+                particles: ["🏠", "👨‍👩‍👧", "💛", "🤗"],
+                milestone: null
             },
             {
-                num: "#13",
+                num: "#13", tag: "Alasan #13", icon: "📸",
                 text: "Setiap pap yang kamu kirim, selalu cantik, imut, menggemaskan banget. Tapi <em>60% view once.</em> Aku tersiksa setiap hari dan ga bisa protes karena kamu cantik banget. 😭",
-                emoji: "📸"
+                accent: "#FF2D78", gold: "#FF6BA8",
+                blob1: "#FF2D78", blob2: "#9D174D",
+                particles: ["📸", "😭", "💕", "👀"],
+                milestone: null
             },
             {
-                num: "#14",
+                num: "#14", tag: "Alasan #14", icon: "🗓️",
                 text: "Kita cuma pernah ketemu <em>3 hari dari 365 hari</em> dalam setahun. Tapi 3 hari itu jadi core memory terbaik yang aku punya. Kalau bisa, aku mau hidup di 3 hari itu selamanya.",
-                emoji: "🗓️"
+                accent: "#FFD700", gold: "#FFA500",
+                blob1: "#FFD700", blob2: "#78350F",
+                particles: ["🗓️", "⏳", "💛", "🌅"],
+                milestone: null
             },
             {
-                num: "#15",
+                num: "#15", tag: "Alasan #15", icon: "💬",
                 text: "Kamu selalu jujur soal perasaan kamu, walaupun kadang kebenarannya bikin aku sesak dan meleleh <em>secara bersamaan.</em> Itu seni tersendiri.",
-                emoji: "💬"
+                accent: "#E5E5EA", gold: "#C7C7CC",
+                blob1: "#8E8E93", blob2: "#48484A",
+                particles: ["💬", "🕊️", "💎", "✨"],
+                milestone: { text: "15 Alasan! 🥺", sub: "Tinggal 7 lagi... hampir sampai!" }
             },
             {
-                num: "#16",
+                num: "#16", tag: "Alasan #16", icon: "👂",
                 text: "Kamu selalu dengerin cerita aku, bahkan yang paling ga penting dan receh sekalipun. Itu mungkin kelihatan kecil, tapi buat aku itu <em>everything.</em>",
-                emoji: "👂"
+                accent: "#0A84FF", gold: "#5AC8FA",
+                blob1: "#0A84FF", blob2: "#1E3A5F",
+                particles: ["👂", "💙", "🌊", "🎵"],
+                milestone: null
             },
             {
-                num: "#17",
+                num: "#17", tag: "Alasan #17", icon: "🛡️",
                 text: "Pas aku kecelakaan. Pas ada masalah kerja. Pas drama keluarga. Kamu selalu ada, <em>konsisten, ga pernah pergi.</em> Kamu itu konstanta dalam hidup aku.",
-                emoji: "🛡️"
+                accent: "#5E5CE6", gold: "#7C7AE8",
+                blob1: "#5E5CE6", blob2: "#1E1B4B",
+                particles: ["🛡️", "💙", "⚔️", "🌟"],
+                milestone: null
             },
             {
-                num: "#18",
+                num: "#18", tag: "Alasan #18", icon: "📖",
                 text: "Kamu ingat hal-hal kecil tentang aku yang bahkan aku sendiri udah lupa. Kamu tuh kayak diary hidup aku yang bisa jalan sendiri. Dan itu bikin aku <em>merasa sangat diperhatikan.</em>",
-                emoji: "📖"
+                accent: "#FF6B9D", gold: "#FFB3C1",
+                blob1: "#FF6B9D", blob2: "#831843",
+                particles: ["📖", "💗", "🌸", "✨"],
+                milestone: null
             },
             {
-                num: "#19",
+                num: "#19", tag: "Alasan #19", icon: "🔔",
                 text: "Dari semua notifikasi yang masuk setiap hari, notifikasi dari kamu itu yang pertama dan paling aku cari. Selalu. Tanpa terkecuali. <em>Kamu adalah highlight hari-hariku.</em>",
-                emoji: "🔔"
+                accent: "#FF6B2B", gold: "#FF9F0A",
+                blob1: "#FF6B2B", blob2: "#7C2D12",
+                particles: ["🔔", "🌟", "💫", "🎉"],
+                milestone: null
             },
             {
-                num: "#20",
+                num: "#20", tag: "Alasan #20", icon: "💬",
                 text: "Kamu selalu manggil aku <em>sayang</em> atau <em>seng</em>, dan percaya atau engga, aku belum pernah bosen dengernya satu kali pun. Makanya tiap dipanggil 'u' rasanya kayak ada yang kurang. 🥲",
-                emoji: "💬"
+                accent: "#FF375F", gold: "#FF6BA8",
+                blob1: "#FF375F", blob2: "#881337",
+                particles: ["💬", "❤️", "🥰", "💕"],
+                milestone: { text: "20 Alasan! ❤️", sub: "2 alasan lagi... siap-siap ya 🎂" }
             },
             {
-                num: "#21",
+                num: "#21", tag: "Alasan #21", icon: "🌸",
                 text: "Kamu selalu baik sama semua orang, bahkan ke yang sering ga balik baik ke kamu. Itu bukan naif. Itu hati yang <em>besar banget</em>. Dan itu salah satu hal yang paling aku kagumi dari kamu. 🫶",
-                emoji: "🌸"
+                accent: "#FFD60A", gold: "#FFAA00",
+                blob1: "#FFD60A", blob2: "#713F12",
+                particles: ["🌸", "🌻", "💛", "🌈"],
+                milestone: null
             },
             {
-                num: "#22",
-                text: "Karena kamu bukan cuma pacar. Kamu adalah <em>hadiah terbaik yang pernah Tuhan kasih ke aku</em>. Aku setiap hari bangun tidur masih ga percaya kamu ada. Happy 22nd Birthday, Sayang! 🎂🎉💕",
-                emoji: "🎂",
+                num: "#22", tag: "Alasan #22 🎂", icon: "🎂",
+                text: null,
+                accent: "#FF6B9D", gold: "#FFD700",
+                blob1: "#FF6B9D", blob2: "#FFD700",
+                particles: ["🎂", "🎉", "💕", "🌟", "🎈", "✨"],
+                milestone: null,
                 final: true
             }
         ];
 
+        // ════════════════════════════════════════════════════════
+        //  STATE
+        // ════════════════════════════════════════════════════════
         let current = 0;
-        let musicPlaying = false; // Added music state
+        let musicPlaying = false;
+        let isAnimating = false;
 
+        // ════════════════════════════════════════════════════════
+        //  STARS
+        // ════════════════════════════════════════════════════════
+        (function createStars() {
+            const c = document.getElementById('stars');
+            for (let i = 0; i < 140; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                const sz = Math.random() * 2.5 + 0.4;
+                s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random() * 100}%;top:${Math.random() * 100}%;--dur:${2 + Math.random() * 4}s;animation-delay:${Math.random() * 6}s`;
+                c.appendChild(s);
+            }
+        })();
+
+        // ════════════════════════════════════════════════════════
+        //  PARTICLES — rebuild on each card
+        // ════════════════════════════════════════════════════════
+        function rebuildParticles(r) {
+            const c = document.getElementById('particles');
+            c.innerHTML = '';
+            const emojis = r.particles;
+            for (let i = 0; i < 22; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.textContent = emojis[i % emojis.length];
+                const sz = 10 + Math.random() * 16;
+                p.style.cssText = `--sz:${sz}px;--left:${Math.random() * 100}%;--spd:${9 + Math.random() * 14}s;--delay:${Math.random() * 14}s`;
+                c.appendChild(p);
+            }
+        }
+
+        // ════════════════════════════════════════════════════════
+        //  THEME — update CSS vars + blobs
+        // ════════════════════════════════════════════════════════
+        function applyTheme(r) {
+            document.documentElement.style.setProperty('--accent', r.accent);
+            document.documentElement.style.setProperty('--card-glow', r.accent);
+
+            document.getElementById('blob1').style.background = r.blob1;
+            document.getElementById('blob2').style.background = r.blob2;
+            document.getElementById('blob3').style.background = r.accent;
+
+            document.getElementById('prog-fill').style.background =
+                `linear-gradient(90deg, ${r.accent}, ${r.gold})`;
+            document.getElementById('prog-fill').style.boxShadow =
+                `0 0 10px ${r.accent}`;
+            document.getElementById('prog-num').style.color = r.accent;
+
+            const bigNum = document.getElementById('big-num');
+            bigNum.style.background = `linear-gradient(135deg, ${r.accent}, ${r.gold})`;
+            bigNum.style.webkitBackgroundClip = 'text';
+            bigNum.style.webkitTextFillColor = 'transparent';
+            bigNum.style.backgroundClip = 'text';
+            bigNum.style.filter = `drop-shadow(0 0 20px ${r.accent}66)`;
+
+            const icon = document.getElementById('card-icon');
+            icon.style.filter = `drop-shadow(0 0 20px ${r.accent})`;
+
+            const card = document.getElementById('card');
+            card.style.borderColor = `${r.accent}33`;
+            card.style.boxShadow = `
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 40px 80px rgba(0,0,0,0.6),
+    0 0 80px ${r.accent}18,
+    0 0 40px ${r.accent}10
+  `;
+
+            const primaryBtn = document.getElementById('btn-next');
+            primaryBtn.style.background = `linear-gradient(135deg, ${r.accent}, ${r.gold})`;
+            primaryBtn.style.boxShadow = `0 8px 28px ${r.accent}55`;
+
+            const em = document.querySelectorAll('#reason-text em');
+            em.forEach(e => e.style.color = r.accent);
+        }
+
+        // ════════════════════════════════════════════════════════
+        //  RENDER CARD
+        // ════════════════════════════════════════════════════════
+        function renderCard(animate = true, dir = 1) {
+            if (isAnimating && animate) return;
+            const r = reasons[current];
+
+            if (animate) {
+                isAnimating = true;
+                const card = document.getElementById('card');
+                card.classList.add(dir > 0 ? 'exit-left' : 'exit-right');
+
+                setTimeout(() => {
+                    card.classList.remove('exit-left', 'exit-right');
+                    updateCardContent(r);
+                    applyTheme(r);
+                    rebuildParticles(r);
+
+                    card.classList.add(dir > 0 ? 'enter-right' : 'enter-left');
+                    setTimeout(() => {
+                        card.classList.remove('enter-right', 'enter-left');
+                        isAnimating = false;
+                    }, 450);
+                }, 340);
+            } else {
+                updateCardContent(r);
+                applyTheme(r);
+                rebuildParticles(r);
+            }
+
+            updateProgress();
+            renderDots();
+
+            // Milestone pop
+            if (r.milestone) {
+                setTimeout(() => showMilestone(r.milestone, r.accent), 600);
+            }
+
+            // Final card confetti
+            if (r.final) {
+                setTimeout(() => launchFinalCelebration(), 500);
+            }
+        }
+
+        function updateCardContent(r) {
+            document.getElementById('reason-tag').textContent = r.tag;
+            document.getElementById('card-icon').textContent = r.icon;
+            document.getElementById('big-num').textContent = r.num;
+
+            const card = document.getElementById('card');
+            const textEl = document.getElementById('reason-text');
+
+            if (r.final) {
+                card.classList.add('final-card');
+                textEl.innerHTML = `
+      <div class="final-msg">Selamat Ulang Tahun ke-22, Sayangku! 🎉</div>
+      <div class="final-sub">
+        Karena kamu bukan cuma pacar.<br>
+        Kamu adalah <em>hadiah terbaik yang pernah Tuhan kasih ke aku</em>.<br><br>
+        Aku setiap hari bangun tidur masih ga percaya kamu ada.<br>
+        <em>I love you, Eva. Selalu.</em> 💖
+      </div>
+    `;
+                document.getElementById('btn-next').style.display = 'none';
+                document.getElementById('swipe-hint').style.display = 'none';
+            } else {
+                card.classList.remove('final-card');
+                textEl.innerHTML = r.text;
+                document.getElementById('btn-next').style.display = '';
+                document.getElementById('swipe-hint').style.display = '';
+            }
+        }
+
+        function updateProgress() {
+            const pct = ((current + 1) / 22) * 100;
+            document.getElementById('prog-fill').style.width = pct + '%';
+            document.getElementById('prog-num').textContent = current + 1;
+
+            document.getElementById('btn-prev').disabled = current === 0;
+            const next = document.getElementById('btn-next');
+            next.textContent = current === 21 ? '🎂' : '💌';
+        }
+
+        // ════════════════════════════════════════════════════════
+        //  DOTS
+        // ════════════════════════════════════════════════════════
         function renderDots() {
-            const dotsEl = document.getElementById('dots');
-            dotsEl.innerHTML = '';
+            const container = document.getElementById('dots');
+            container.innerHTML = '';
             reasons.forEach((_, i) => {
                 const d = document.createElement('div');
                 d.className = 'dot' + (i === current ? ' active' : i < current ? ' visited' : '');
-                d.onclick = () => goTo(i);
-                dotsEl.appendChild(d);
+                d.onclick = () => { if (i !== current) { const dir = i > current ? 1 : -1; current = i; renderCard(true, dir); } };
+                container.appendChild(d);
             });
         }
 
-        function renderCard(animate = true) {
-            const r = reasons[current];
-            const card = document.getElementById('card');
-            const numEl = document.getElementById('reason-num');
-            const textEl = document.getElementById('reason-text');
-            const progFill = document.getElementById('prog-fill');
-            const progLabel = document.getElementById('prog-label');
-
-            if (animate) {
-                card.classList.add('slide-out');
-                setTimeout(() => {
-                    card.classList.remove('slide-out');
-                    updateContent(r, numEl, textEl, card);
-                    card.classList.add('slide-in');
-                    setTimeout(() => card.classList.remove('slide-in'), 400);
-                }, 280);
-            } else {
-                updateContent(r, numEl, textEl, card);
-            }
-
-            const pct = ((current + 1) / reasons.length) * 100;
-            progFill.style.width = pct + '%';
-            progLabel.textContent = (current + 1) + ' / ' + reasons.length;
-
-            document.getElementById('btn-prev').disabled = current === 0;
-            const nextBtn = document.getElementById('btn-next');
-            if (current === reasons.length - 1) {
-                nextBtn.textContent = '🎂';
-                nextBtn.title = 'Selamat Ulang Tahun!';
-            } else {
-                nextBtn.textContent = '💌';
-            }
-
-            renderDots();
-
-            if (r.final) {
-                setTimeout(() => launchCelebration(), 400);
-            }
-        }
-
-        function updateContent(r, numEl, textEl, card) {
-            numEl.textContent = r.num;
-            textEl.innerHTML = r.text;
-            card.className = 'card' + (r.final ? ' final' : '');
-        }
-
+        // ════════════════════════════════════════════════════════
+        //  NAVIGATE
+        // ════════════════════════════════════════════════════════
         function navigate(dir) {
+            if (isAnimating) return;
             const next = current + dir;
             if (next < 0 || next >= reasons.length) return;
-            if (next === reasons.length && current === reasons.length - 1) {
-                launchCelebration();
-                return;
-            }
             current = next;
-            renderCard(true);
+            renderCard(true, dir);
+            spawnRipple();
         }
 
-        function goTo(i) {
-            if (i === current) return;
-            current = i;
-            renderCard(true);
+        // ════════════════════════════════════════════════════════
+        //  SWIPE GESTURE
+        // ════════════════════════════════════════════════════════
+        let touchStartX = 0, touchStartY = 0;
+
+        document.getElementById('card-wrap').addEventListener('touchstart', e => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.getElementById('card-wrap').addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            const dy = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+                navigate(dx < 0 ? 1 : -1);
+            }
+        }, { passive: true });
+
+        // Desktop drag
+        let mouseStartX = 0, isDragging = false;
+        const cardEl = document.getElementById('card');
+        cardEl.addEventListener('mousedown', e => { mouseStartX = e.clientX; isDragging = true; });
+        document.addEventListener('mousemove', e => {
+            if (!isDragging) return;
+            const dx = e.clientX - mouseStartX;
+            cardEl.style.transform = `translateX(${dx * 0.1}px) rotate(${dx * 0.01}deg)`;
+        });
+        document.addEventListener('mouseup', e => {
+            if (!isDragging) return;
+            isDragging = false;
+            const dx = e.clientX - mouseStartX;
+            cardEl.style.transform = '';
+            if (Math.abs(dx) > 80) navigate(dx < 0 ? 1 : -1);
+        });
+
+        // ════════════════════════════════════════════════════════
+        //  KEYBOARD
+        // ════════════════════════════════════════════════════════
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === ' ') navigate(1);
+            if (e.key === 'ArrowLeft') navigate(-1);
+        });
+
+        // ════════════════════════════════════════════════════════
+        //  RIPPLE on button click
+        // ════════════════════════════════════════════════════════
+        function spawnRipple() {
+            const card = document.getElementById('card');
+            const r = document.createElement('div');
+            r.className = 'ripple';
+            r.style.cssText = `
+    width: 80px; height: 80px;
+    left: calc(50% - 40px); top: calc(50% - 40px);
+  `;
+            card.appendChild(r);
+            setTimeout(() => r.remove(), 700);
         }
 
-        // Stars
-        function createStars() {
-            const container = document.getElementById('stars');
-            for (let i = 0; i < 120; i++) {
-                const s = document.createElement('div');
-                s.className = 'star';
-                const size = Math.random() * 2.5 + 0.5;
-                s.style.cssText = `
-      width:${size}px; height:${size}px;
-      left:${Math.random() * 100}%;
-      top:${Math.random() * 100}%;
-      --dur:${2 + Math.random() * 4}s;
-      animation-delay:${Math.random() * 5}s;
-    `;
-                container.appendChild(s);
+        // ════════════════════════════════════════════════════════
+        //  SPARKLES burst
+        // ════════════════════════════════════════════════════════
+        function spawnSparkles(count = 10, emojis = ['✨', '🌟', '💫']) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const el = document.createElement('div');
+                    el.className = 'sparkle';
+                    const sz = 0.8 + Math.random() * 1.4;
+                    const angle = Math.random() * Math.PI * 2;
+                    const dist = 80 + Math.random() * 120;
+                    el.style.cssText = `
+        --sz:${sz}rem;
+        --tx:${Math.cos(angle) * dist}px;
+        --ty:${Math.sin(angle) * dist - 60}px;
+        left:${20 + Math.random() * 60}vw;
+        top:${30 + Math.random() * 40}vh;
+      `;
+                    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    document.body.appendChild(el);
+                    setTimeout(() => el.remove(), 1000);
+                }, i * 80);
             }
         }
 
-        // Floating hearts
-        function createHearts() {
-            const container = document.getElementById('hearts');
-            const emojis = ['💕', '💖', '💗', '💓', '✨', '🌸', '💝', '💞'];
-            for (let i = 0; i < 18; i++) {
-                const h = document.createElement('div');
-                h.className = 'float-heart';
-                h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                const size = 12 + Math.random() * 18;
-                h.style.cssText = `
-      --size:${size}px;
-      --left:${Math.random() * 100}%;
-      --dur2:${8 + Math.random() * 12}s;
-      animation-delay:${Math.random() * 12}s;
-    `;
-                container.appendChild(h);
-            }
+        // ════════════════════════════════════════════════════════
+        //  MILESTONE
+        // ════════════════════════════════════════════════════════
+        function showMilestone(m, color) {
+            const el = document.getElementById('burst-text');
+            el.style.background = `linear-gradient(135deg, ${color}, #fff)`;
+            el.style.webkitBackgroundClip = 'text';
+            el.style.webkitTextFillColor = 'transparent';
+            el.style.backgroundClip = 'text';
+            el.innerHTML = `${m.text}<br><span style="font-size:0.45em;-webkit-text-fill-color:rgba(255,255,255,0.7)">${m.sub}</span>`;
+            el.classList.remove('pop');
+            void el.offsetWidth;
+            el.classList.add('pop');
+
+            // Flash
+            const flash = document.getElementById('flash');
+            flash.style.background = color;
+            flash.classList.remove('go');
+            void flash.offsetWidth;
+            flash.classList.add('go');
+
+            spawnSparkles(18, ['🌟', '✨', '💫', '⭐', '🎊']);
         }
 
-        // Confetti
-        function launchCelebration() {
+        // ════════════════════════════════════════════════════════
+        //  FINAL CELEBRATION
+        // ════════════════════════════════════════════════════════
+        function launchFinalCelebration() {
+            spawnSparkles(30, ['🎂', '🎉', '💕', '🌟', '🎈', '✨', '💖', '🎊']);
+
+            const flash = document.getElementById('flash');
+            flash.style.background = 'linear-gradient(135deg, #FF6B9D, #FFD700)';
+            flash.classList.remove('go');
+            void flash.offsetWidth;
+            flash.classList.add('go');
+
             const canvas = document.getElementById('confetti');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
+            const colors = ['#f5c842', '#ff6b9d', '#ff8c69', '#c084fc', '#fff', '#ffd6e7', '#ff2d55', '#30d158', '#0a84ff'];
+            const shapes = ['rect', 'circle', 'star'];
             const particles = [];
-            const colors = ['#f5c842', '#ff6b9d', '#ff8c69', '#c084fc', '#fff', '#ffd6e7', '#ffe0b2'];
 
-            for (let i = 0; i < 140; i++) {
+            for (let i = 0; i < 200; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
-                    y: -20 - Math.random() * 200,
-                    vx: (Math.random() - 0.5) * 3,
-                    vy: 2 + Math.random() * 4,
-                    size: 5 + Math.random() * 9,
+                    y: -30 - Math.random() * 300,
+                    vx: (Math.random() - 0.5) * 5,
+                    vy: 1.5 + Math.random() * 5,
+                    size: 5 + Math.random() * 11,
                     color: colors[Math.floor(Math.random() * colors.length)],
-                    shape: Math.random() > 0.5 ? 'rect' : 'circle',
+                    shape: shapes[Math.floor(Math.random() * shapes.length)],
                     rot: Math.random() * Math.PI * 2,
-                    rotV: (Math.random() - 0.5) * 0.12,
-                    alpha: 1
+                    rotV: (Math.random() - 0.5) * 0.15,
                 });
             }
 
             let frame = 0;
-            function animate() {
+            function draw() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vy += 0.05;
-                    p.rot += p.rotV;
-                    if (p.y > canvas.height + 20) { p.y = -20; p.x = Math.random() * canvas.width; p.vy = 2 + Math.random() * 4; }
+                    p.x += p.vx; p.y += p.vy; p.vy += 0.04; p.rot += p.rotV;
+                    if (p.y > canvas.height + 30) { p.y = -20; p.x = Math.random() * canvas.width; }
                     ctx.save();
                     ctx.translate(p.x, p.y);
                     ctx.rotate(p.rot);
-                    ctx.globalAlpha = p.alpha;
                     ctx.fillStyle = p.color;
+                    ctx.globalAlpha = 0.9;
                     if (p.shape === 'rect') {
-                        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.5);
+                        ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+                    } else if (p.shape === 'circle') {
+                        ctx.beginPath(); ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2); ctx.fill();
                     } else {
                         ctx.beginPath();
-                        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
-                        ctx.fill();
+                        for (let s = 0; s < 5; s++) {
+                            ctx.lineTo(Math.cos((18 + 72 * s) * Math.PI / 180) * p.size / 2, Math.sin((18 + 72 * s) * Math.PI / 180) * p.size / 2);
+                            ctx.lineTo(Math.cos((54 + 72 * s) * Math.PI / 180) * p.size / 4, Math.sin((54 + 72 * s) * Math.PI / 180) * p.size / 4);
+                        }
+                        ctx.closePath(); ctx.fill();
                     }
                     ctx.restore();
                 });
                 frame++;
-                if (frame < 280) requestAnimationFrame(animate);
+                if (frame < 350) requestAnimationFrame(draw);
                 else ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
-            animate();
+            draw();
+
+            // Repeat bursts
+            let burst = 0;
+            const burstInt = setInterval(() => {
+                burst++;
+                spawnSparkles(8, ['🎂', '💕', '🌟', '✨']);
+                if (burst >= 5) clearInterval(burstInt);
+            }, 900);
         }
 
-        // ADDED: Music Logic
+        // ════════════════════════════════════════════════════════
+        //  MUSIC
+        // ════════════════════════════════════════════════════════
         function toggleMusic() {
             const music = document.getElementById('bg-music');
             if (musicPlaying) {
-                music.pause();
-                musicPlaying = false;
+                music.pause(); musicPlaying = false;
                 document.getElementById('music-toggle').textContent = '🔇';
             } else {
-                music.play();
-                musicPlaying = true;
+                music.play(); musicPlaying = true;
                 document.getElementById('music-toggle').textContent = '🔊';
             }
         }
 
-        // Init
-        createStars();
-        createHearts();
+        // ════════════════════════════════════════════════════════
+        //  INIT
+        // ════════════════════════════════════════════════════════
         renderCard(false);
 
-        // Autoplay attempt
         const music = document.getElementById('bg-music');
         music.volume = 0.3;
         music.play().then(() => {
@@ -834,14 +1354,7 @@
                 document.getElementById('music-toggle').textContent = '🔊';
             }, { once: true });
         });
-
-        // Keyboard nav
-        document.addEventListener('keydown', e => {
-            if (e.key === 'ArrowRight' || e.key === ' ') navigate(1);
-            if (e.key === 'ArrowLeft') navigate(-1);
-        });
     </script>
-
 </body>
 
 </html>
