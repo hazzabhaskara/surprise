@@ -8,6 +8,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -702,6 +703,102 @@
             }
         }
 
+        /* =========================================
+           BOMBASTIC POLAROID EFFECT 📸✨
+           ========================================= */
+        .polaroid-wrapper {
+            position: relative;
+            margin: 0 auto 25px auto;
+            width: min(220px, 60vw);
+            height: min(260px, 70vw);
+            background: #fff;
+            padding: 10px 10px 50px 10px;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(255, 107, 157, 0.4);
+            border-radius: 4px;
+            display: none;
+            z-index: 10;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            --rot: -3deg;
+        }
+
+        .polaroid-wrapper.show {
+            display: block;
+            animation: polaroidPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .polaroid-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            width: 90px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 11;
+        }
+
+        .polaroid-wrapper:hover {
+            transform: rotate(calc(var(--rot) * -1)) scale(1.1) translateY(-10px) !important;
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.7),
+                0 0 50px rgba(255, 107, 157, 0.8);
+        }
+
+        .polaroid-img-box {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #111;
+            border-radius: 2px;
+        }
+
+        .polaroid-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .polaroid-wrapper:hover .polaroid-img-box img {
+            transform: scale(1.15);
+        }
+
+        .polaroid-caption {
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-family: 'Caveat', cursive;
+            color: #1a1a2e;
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        @keyframes polaroidPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(80px) rotate(-20deg);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.15) translateY(-15px) rotate(10deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0) rotate(var(--rot));
+            }
+        }
+
         @media (max-width:480px) {
             .card {
                 padding: 32px 22px;
@@ -744,6 +841,12 @@
 
         <div class="card-wrap" id="card-wrap">
             <div class="card" id="card">
+                <div class="polaroid-wrapper" id="polaroid-wrapper">
+                    <div class="polaroid-img-box">
+                        <img id="polaroid-img" src="" alt="Memory Eva">
+                    </div>
+                    <div class="polaroid-caption" id="polaroid-caption"></div>
+                </div>
                 <span class="reason-num-tag" id="reason-tag">Alasan #1</span>
                 <span class="card-icon" id="card-icon">🔑</span>
                 <span class="big-num" id="big-num">#1</span>
@@ -777,7 +880,8 @@
                 accent: "#FF2D55", gold: "#FF6B6B",
                 blob1: "#FF2D55", blob2: "#C1121F",
                 particles: ["💪", "🔑", "❤️‍🔥", "✨"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240518-WA0046.jpg", caption: "Awal yang berani 🥺"
             },
             {
                 num: "#2", tag: "Alasan #2", icon: "🤝",
@@ -785,7 +889,8 @@
                 accent: "#FFD700", gold: "#FFA500",
                 blob1: "#FFD700", blob2: "#B8860B",
                 particles: ["🤝", "💛", "⭐", "🌟"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240518-WA0057(3).jpg", caption: "Trust 100% 💛"
             },
             {
                 num: "#3", tag: "Alasan #3", icon: "💅",
@@ -793,7 +898,8 @@
                 accent: "#BF5AF2", gold: "#9B59B6",
                 blob1: "#BF5AF2", blob2: "#6C3483",
                 particles: ["💅", "👑", "💜", "✨"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240518-WA0065.jpg", caption: "Independent tapi manja 😏"
             },
             {
                 num: "#4", tag: "Alasan #4", icon: "🕶️",
@@ -801,7 +907,8 @@
                 accent: "#FF375F", gold: "#FF69B4",
                 blob1: "#FF375F", blob2: "#C0392B",
                 particles: ["🕶️", "💄", "👗", "🌸"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240518-WA0074.jpg", caption: "Stylist pribadi 🕶️"
             },
             {
                 num: "#5", tag: "Alasan #5", icon: "🥊",
@@ -809,7 +916,8 @@
                 accent: "#FF6B00", gold: "#FF9F0A",
                 blob1: "#FF6B00", blob2: "#E74C3C",
                 particles: ["🥊", "🔥", "💥", "❤️"],
-                milestone: { text: "5 Alasan! 🔥", sub: "Baru setengah jalan~" }
+                milestone: { text: "5 Alasan! 🔥", sub: "Baru setengah jalan~" },
+                image: "Foto/IMG-20240518-WA0083.jpg", caption: "Berantem tapi sayang 🥊❤️"
             },
             {
                 num: "#6", tag: "Alasan #6", icon: "🌱",
@@ -817,7 +925,8 @@
                 accent: "#30D158", gold: "#2ECC71",
                 blob1: "#30D158", blob2: "#1A6B36",
                 particles: ["🌱", "🌿", "💚", "⚡"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240518-WA0102.jpg", caption: "Motivator terbaik 🌱"
             },
             {
                 num: "#7", tag: "Alasan #7", icon: "🌙",
@@ -825,7 +934,8 @@
                 accent: "#0A84FF", gold: "#5AC8FA",
                 blob1: "#0A84FF", blob2: "#0D3B8F",
                 particles: ["🌙", "⭐", "🌠", "💤"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240518-WA0127.jpg", caption: "Lagu tidur favorit 🌙"
             },
             {
                 num: "#8", tag: "Alasan #8", icon: "✨",
@@ -833,7 +943,8 @@
                 accent: "#5AC8FA", gold: "#32ADE6",
                 blob1: "#5AC8FA", blob2: "#0A84FF",
                 particles: ["👀", "✨", "💫", "🌊"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240518-WA0156.jpg", caption: "Mata yang bikin tenggelam ✨"
             },
             {
                 num: "#9", tag: "Alasan #9", icon: "✈️",
@@ -841,7 +952,8 @@
                 accent: "#32ADE6", gold: "#5AC8FA",
                 blob1: "#32ADE6", blob2: "#1A527D",
                 particles: ["✈️", "🌏", "🛫", "☁️"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240519-WA0002.jpg", caption: "Nyamperin jauh-jauh ✈️💕"
             },
             {
                 num: "#10", tag: "Alasan #10", icon: "💆",
@@ -849,7 +961,8 @@
                 accent: "#C084FC", gold: "#A855F7",
                 blob1: "#C084FC", blob2: "#6B21A8",
                 particles: ["🔮", "💜", "🌌", "✨"],
-                milestone: { text: "10 Alasan! 💫", sub: "Setengah jalan, terus lanjut ya!" }
+                milestone: { text: "10 Alasan! 💫", sub: "Setengah jalan, terus lanjut ya!" },
+                image: "Foto/IMG-20240519-WA0013.jpg", caption: "Selalu ngerti aku 💜"
             },
             {
                 num: "#11", tag: "Alasan #11", icon: "🔥",
@@ -857,7 +970,8 @@
                 accent: "#34C759", gold: "#30D158",
                 blob1: "#34C759", blob2: "#166534",
                 particles: ["🔥", "💪", "🌟", "⬆️"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240519-WA0078.jpg", caption: "Push aku jadi lebih 🔥"
             },
             {
                 num: "#12", tag: "Alasan #12", icon: "🏠",
@@ -865,7 +979,8 @@
                 accent: "#FF9F0A", gold: "#FFD60A",
                 blob1: "#FF9F0A", blob2: "#92400E",
                 particles: ["🏠", "👨‍👩‍👧", "💛", "🤗"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240519-WA0112(1).jpg", caption: "Diterima keluarga 🏠💛"
             },
             {
                 num: "#13", tag: "Alasan #13", icon: "📸",
@@ -873,7 +988,8 @@
                 accent: "#FF2D78", gold: "#FF6BA8",
                 blob1: "#FF2D78", blob2: "#9D174D",
                 particles: ["📸", "😭", "💕", "👀"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240519-WA0113(1).jpg", caption: "Cantik banget sih 📸😭"
             },
             {
                 num: "#14", tag: "Alasan #14", icon: "🗓️",
@@ -881,7 +997,8 @@
                 accent: "#FFD700", gold: "#FFA500",
                 blob1: "#FFD700", blob2: "#78350F",
                 particles: ["🗓️", "⏳", "💛", "🌅"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240520-WA0003(1).jpg", caption: "3 hari terbaik 🗓️💛"
             },
             {
                 num: "#15", tag: "Alasan #15", icon: "💬",
@@ -889,7 +1006,8 @@
                 accent: "#E5E5EA", gold: "#C7C7CC",
                 blob1: "#8E8E93", blob2: "#48484A",
                 particles: ["💬", "🕊️", "💎", "✨"],
-                milestone: { text: "15 Alasan! 🥺", sub: "Tinggal 7 lagi... hampir sampai!" }
+                milestone: { text: "15 Alasan! 🥺", sub: "Tinggal 7 lagi... hampir sampai!" },
+                image: "Foto/IMG-20240520-WA0031.jpg", caption: "Jujur dan tulus 💬"
             },
             {
                 num: "#16", tag: "Alasan #16", icon: "👂",
@@ -897,7 +1015,8 @@
                 accent: "#0A84FF", gold: "#5AC8FA",
                 blob1: "#0A84FF", blob2: "#1E3A5F",
                 particles: ["👂", "💙", "🌊", "🎵"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240520-WA0051.jpg", caption: "Pendengar terbaik 👂💙"
             },
             {
                 num: "#17", tag: "Alasan #17", icon: "🛡️",
@@ -905,7 +1024,8 @@
                 accent: "#5E5CE6", gold: "#7C7AE8",
                 blob1: "#5E5CE6", blob2: "#1E1B4B",
                 particles: ["🛡️", "💙", "⚔️", "🌟"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240520-WA0107.jpg", caption: "Selalu ada, selalu 🛡️"
             },
             {
                 num: "#18", tag: "Alasan #18", icon: "📖",
@@ -913,7 +1033,8 @@
                 accent: "#FF6B9D", gold: "#FFB3C1",
                 blob1: "#FF6B9D", blob2: "#831843",
                 particles: ["📖", "💗", "🌸", "✨"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20240520-WA0121.jpg", caption: "Diary hidup aku 📖💗"
             },
             {
                 num: "#19", tag: "Alasan #19", icon: "🔔",
@@ -921,7 +1042,8 @@
                 accent: "#FF6B2B", gold: "#FF9F0A",
                 blob1: "#FF6B2B", blob2: "#7C2D12",
                 particles: ["🔔", "🌟", "💫", "🎉"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20250602-WA0011(1).jpg", caption: "Notif paling ditunggu 🔔"
             },
             {
                 num: "#20", tag: "Alasan #20", icon: "💬",
@@ -929,7 +1051,8 @@
                 accent: "#FF375F", gold: "#FF6BA8",
                 blob1: "#FF375F", blob2: "#881337",
                 particles: ["💬", "❤️", "🥰", "💕"],
-                milestone: { text: "20 Alasan! ❤️", sub: "2 alasan lagi... siap-siap ya 🎂" }
+                milestone: { text: "20 Alasan! ❤️", sub: "2 alasan lagi... siap-siap ya 🎂" },
+                image: "Foto/IMG-20250603-WA0008(1).jpg", caption: "Sayang & Seng 💬❤️"
             },
             {
                 num: "#21", tag: "Alasan #21", icon: "🌸",
@@ -937,7 +1060,8 @@
                 accent: "#FFD60A", gold: "#FFAA00",
                 blob1: "#FFD60A", blob2: "#713F12",
                 particles: ["🌸", "🌻", "💛", "🌈"],
-                milestone: null
+                milestone: null,
+                image: "Foto/IMG-20250614-WA0007(2).jpg", caption: "Hati yang besar 🌸🫶"
             },
             {
                 num: "#22", tag: "Alasan #22 🎂", icon: "🎂",
@@ -946,7 +1070,8 @@
                 blob1: "#FF6B9D", blob2: "#FFD700",
                 particles: ["🎂", "🎉", "💕", "🌟", "🎈", "✨"],
                 milestone: null,
-                final: true
+                final: true,
+                image: "Foto/IMG-20250614-WA0008(1).jpg", caption: "Happy 22nd Birthday! 🎂💕"
             }
         ];
 
@@ -1083,6 +1208,23 @@
 
             const card = document.getElementById('card');
             const textEl = document.getElementById('reason-text');
+
+            // === POLAROID LOGIC ===
+            const polaroidWrap = document.getElementById('polaroid-wrapper');
+            const polaroidImg = document.getElementById('polaroid-img');
+            const polaroidCaption = document.getElementById('polaroid-caption');
+
+            if (r.image) {
+                polaroidWrap.classList.remove('show');
+                void polaroidWrap.offsetWidth;
+                polaroidImg.src = r.image;
+                polaroidCaption.textContent = r.caption || '';
+                const randomRot = (Math.random() * 10 - 5).toFixed(1);
+                polaroidWrap.style.setProperty('--rot', `${randomRot}deg`);
+                polaroidWrap.classList.add('show');
+            } else {
+                polaroidWrap.classList.remove('show');
+            }
 
             if (r.final) {
                 card.classList.add('final-card');
