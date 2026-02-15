@@ -804,6 +804,147 @@
                 padding: 32px 22px;
             }
         }
+
+        /* =========================================
+           MINI GAME: CATCH THE HEARTS 🏹💕
+           ========================================= */
+        #hearts {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .float-heart {
+            position: absolute;
+            font-size: var(--size);
+            bottom: -60px;
+            left: var(--left);
+            animation: floatUp var(--dur2) ease-in infinite;
+            animation-delay: var(--delay, 0s);
+            opacity: 0;
+            pointer-events: auto !important;
+            cursor: crosshair;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s;
+            z-index: 50;
+        }
+
+        .float-heart:hover {
+            transform: scale(1.6) rotate(15deg);
+            filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.8));
+        }
+
+        .float-heart.popped {
+            opacity: 0 !important;
+            transform: scale(3) !important;
+            pointer-events: none !important;
+        }
+
+        #heart-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 107, 157, 0.15);
+            border: 1px solid rgba(255, 107, 157, 0.4);
+            padding: 10px 18px;
+            border-radius: 50px;
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 800;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 107, 157, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+
+        #heart-counter.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #heart-count {
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+
+        .secret-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .secret-modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .secret-modal {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(255, 215, 0, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 24px;
+            padding: 40px 30px;
+            width: min(420px, 90vw);
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.15), inset 0 0 20px rgba(255, 107, 157, 0.1);
+            transform: scale(0.8) translateY(30px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .secret-modal-overlay.open .secret-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .secret-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #f5c842, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .secret-body {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 25px;
+        }
+
+        .secret-body em {
+            color: #ff6b9d;
+            font-weight: 800;
+            font-style: normal;
+        }
+
+        .secret-close {
+            background: linear-gradient(135deg, #f5c842, #ff8c69);
+            border: none;
+            color: #1a1a2e;
+            font-weight: 900;
+            font-size: 1.1rem;
+            padding: 14px 35px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(245, 200, 66, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .secret-close:hover {
+            transform: scale(1.08) translateY(-2px);
+        }
     </style>
 </head>
 
@@ -816,6 +957,7 @@
         <div class="blob" id="blob3" style="width:280px;height:280px;top:40%;left:60%;"></div>
     </div>
     <div class="stars" id="stars"></div>
+    <div id="hearts"></div>
     <div class="particles" id="particles"></div>
     <div id="flash"></div>
     <canvas id="confetti"></canvas>
@@ -868,6 +1010,22 @@
         <source src="Nadin_Amizah_-_Semua_Aku_Dirayakan.mp3" type="audio/mpeg">
     </audio>
     <button id="music-toggle" onclick="toggleMusic()">🔊</button>
+
+    <div id="heart-counter">Hati tertangkap: <span id="heart-count">0</span> / 22</div>
+
+    <div class="secret-modal-overlay" id="secret-modal-overlay">
+        <div class="secret-modal">
+            <div class="secret-title">🎉 SECRET UNLOCKED! 🎉</div>
+            <div class="secret-body">
+                Wah, kamu hebat banget berhasil menangkap <em>22 hati</em> cintaku yang melayang! (Sesuai umurmu yang
+                ke-22 hihihi).<br><br>
+                Ini bukti kalau kamu emang selalu bisa <em>nangkep hati aku</em>, di dunia nyata maupun di dunia maya
+                😉💖<br><br>
+                <em>"I love you more than 22 hearts could ever hold. Happy birthday, Eva!"</em> 🎂✨
+            </div>
+            <button class="secret-close" onclick="closeSecretModal()">Aku Sayang Kamu! 😍</button>
+        </div>
+    </div>
 
     <script>
         // ════════════════════════════════════════════════════════
@@ -1477,6 +1635,57 @@
                 music.play(); musicPlaying = true;
                 document.getElementById('music-toggle').textContent = '🔊';
             }
+        }
+
+        // ════════════════════════════════════════════════════════
+        //  MINI GAME: CATCH THE HEARTS 🏹💕
+        // ════════════════════════════════════════════════════════
+        let heartsCaught = 0;
+
+        (function createHeartsWithGame() {
+            const container = document.getElementById('hearts');
+            const emojis = ['💕', '💖', '💗', '💓', '✨', '🌸', '💝', '🎂', '🎈', '🎁'];
+
+            for (let i = 0; i < 40; i++) {
+                const h = document.createElement('div');
+                h.className = 'float-heart';
+                h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                const size = 18 + Math.random() * 22;
+                h.style.cssText = `--size:${size}px;--left:${Math.random() * 100}%;--dur2:${9 + Math.random() * 15}s;animation-delay:${Math.random() * 10}s;`;
+
+                h.onclick = function () {
+                    if (this.classList.contains('popped')) return;
+                    this.classList.add('popped');
+                    heartsCaught++;
+
+                    const counterBox = document.getElementById('heart-counter');
+                    const countText = document.getElementById('heart-count');
+                    counterBox.classList.add('show');
+                    countText.textContent = heartsCaught;
+
+                    spawnSparkles(3, ['✨', '💖']);
+
+                    if (heartsCaught === 22) {
+                        setTimeout(() => openSecretModal(), 800);
+                    }
+
+                    setTimeout(() => {
+                        this.classList.remove('popped');
+                    }, 4000);
+                };
+
+                container.appendChild(h);
+            }
+        })();
+
+        function openSecretModal() {
+            document.getElementById('secret-modal-overlay').classList.add('open');
+            document.getElementById('heart-counter').classList.remove('show');
+            launchFinalCelebration();
+        }
+
+        function closeSecretModal() {
+            document.getElementById('secret-modal-overlay').classList.remove('open');
         }
 
         // ════════════════════════════════════════════════════════
