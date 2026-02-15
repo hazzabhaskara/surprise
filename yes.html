@@ -704,27 +704,29 @@
         }
 
         /* =========================================
-           BOMBASTIC POLAROID EFFECT 📸✨
+           BOMBASTIC POLAROID EFFECT 📸✨ (UPDATED)
            ========================================= */
         .polaroid-wrapper {
             position: relative;
             margin: 0 auto 25px auto;
             width: min(220px, 60vw);
-            height: min(260px, 70vw);
+            height: auto;
             background: #fff;
-            padding: 10px 10px 50px 10px;
+            padding: 10px 10px 15px 10px;
             box-shadow:
                 0 20px 40px rgba(0, 0, 0, 0.6),
                 0 0 30px rgba(255, 107, 157, 0.4);
             border-radius: 4px;
             display: none;
+            flex-direction: column;
+            align-items: center;
             z-index: 10;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
             --rot: -3deg;
         }
 
         .polaroid-wrapper.show {
-            display: block;
+            display: flex;
             animation: polaroidPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
@@ -752,7 +754,7 @@
 
         .polaroid-img-box {
             width: 100%;
-            height: 100%;
+            aspect-ratio: 4 / 5;
             overflow: hidden;
             background: #111;
             border-radius: 2px;
@@ -770,16 +772,17 @@
         }
 
         .polaroid-caption {
-            position: absolute;
-            bottom: 8px;
-            left: 0;
+            position: relative;
             width: 100%;
+            margin-top: 12px;
             text-align: center;
             font-family: 'Caveat', cursive;
             color: #1a1a2e;
-            font-size: 1.6rem;
+            font-size: clamp(1.1rem, 4.5vw, 1.4rem);
             font-weight: 600;
-            letter-spacing: 1px;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+            word-wrap: break-word;
         }
 
         @keyframes polaroidPop {

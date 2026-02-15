@@ -1,4 +1,4 @@
-// ==========================================
+ // ==========================================
 //  22 ALASAN KENAPA AKU SAYANG KAMU
 //  (Ganti dengan alasan personalmu sendiri!)
 // ==========================================
@@ -20,18 +20,7 @@ const reasons = [
     "Karena jalan-jalan sama kamu, mau ke mana aja, selalu seru 🚗",
     "Karena kamu terima aku apa adanya, nggak ada yang perlu ditutup-tutupi 💛",
     "Karena cara kamu peduli ke orang-orang di sekitarmu bikin aku makin kagum 🌻",
-    "Karena bareng kamu, waktu rasanya berjalan terlalu cepat ⏳",
-    "Karena kamu selalu jadi alasan aku senyum tanpa sadar 😊",
-    "Karena setiap chat dari kamu bikin hari jadi lebih berwarna 🌈",
-    "Karena aku nggak bisa bayangin hidup tanpa kamu di dalamnya 💗",
-    "Karena kamu adalah jawaban dari semua doa-doaku 🤲",
-    "Karena kamu adalah hadiah terbaik yang pernah aku terima... Happy 22nd Birthday, sayang! 🎂🎉💖"
-]
-
-let currentIndex = 0
-let musicPlaying = false
-
-// === INIT ===
+    "Karena baT9
 window.addEventListener('load', () => {
     showReason(0)
     launchSmallConfetti()
