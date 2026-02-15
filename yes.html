@@ -1352,6 +1352,44 @@
         }
 
         // ════════════════════════════════════════════════════════
+        //  EFEK KETIKAN (TYPEWRITER) CERDAS ⌨️
+        // ════════════════════════════════════════════════════════
+        let typewriterTimeout;
+
+        function typeWriterHTML(element, htmlString, speed = 35) {
+            element.innerHTML = '';
+            let i = 0;
+            let isTag = false;
+            let text = '';
+
+            if (typewriterTimeout) clearTimeout(typewriterTimeout);
+
+            function type() {
+                if (i < htmlString.length) {
+                    let char = htmlString.charAt(i);
+
+                    if (char === '<') isTag = true;
+
+                    text += char;
+                    i++;
+
+                    if (isTag) {
+                        while (i < htmlString.length && htmlString.charAt(i - 1) !== '>') {
+                            text += htmlString.charAt(i);
+                            i++;
+                        }
+                        isTag = false;
+                        type();
+                    } else {
+                        element.innerHTML = text;
+                        typewriterTimeout = setTimeout(type, speed);
+                    }
+                }
+            }
+            type();
+        }
+
+        // ════════════════════════════════════════════════════════
         //  RENDER CARD
         // ════════════════════════════════════════════════════════
         function renderCard(animate = true, dir = 1) {
@@ -1443,7 +1481,8 @@
                 document.getElementById('swipe-hint').style.display = 'none';
             } else {
                 card.classList.remove('final-card');
-                textEl.innerHTML = r.text;
+                textEl.innerHTML = '';
+                typeWriterHTML(textEl, r.text, 40);
                 document.getElementById('btn-next').style.display = '';
                 document.getElementById('swipe-hint').style.display = '';
             }
