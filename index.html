@@ -288,8 +288,10 @@
             background: #0a0a1a;
             z-index: 999;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            gap: 16px;
             transition: opacity 0.8s ease;
         }
 
@@ -308,6 +310,44 @@
             padding: 0 20px;
         }
 
+        /* Candle row shown during countdown */
+        #countdown-candles {
+            font-size: 1.6rem;
+            letter-spacing: 4px;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            animation: candleGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        #countdown-candles.show {
+            opacity: 0.7;
+        }
+
+        @keyframes candleGlow {
+            from {
+                filter: drop-shadow(0 0 6px #f5c842) brightness(0.9);
+            }
+
+            to {
+                filter: drop-shadow(0 0 14px #ff6b9d) brightness(1.2);
+            }
+        }
+
+        #countdown-sub {
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-align: center;
+            padding: 0 30px;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        #countdown-sub.show {
+            opacity: 1;
+        }
+
         @keyframes pulse {
             from {
                 transform: scale(1);
@@ -324,9 +364,11 @@
 
 <body>
 
-    <!-- Countdown Overlay -->
+    <!-- Countdown Overlay (Babak 2) -->
     <div id="countdown-overlay">
+        <div id="countdown-candles">🕯️🕯️🕯️</div>
         <div id="countdown-num">3</div>
+        <div id="countdown-sub"></div>
     </div>
 
     <div class="stars" id="stars"></div>
@@ -380,13 +422,16 @@
         })();
 
         // ===== COUNTDOWN + TYPING + FADE-IN SEQUENCE =====
+        const fromCake = document.referrer.includes('birthday-cake') ||
+            sessionStorage.getItem('from_cake') === '1';
+        sessionStorage.removeItem('from_cake');
+
         const titleText = 'Kamu mau jadi orang paling bahagia di umur 22? 🎂';
         const containerEl = document.querySelector('.container');
         const gifContainer = document.querySelector('.gif-container');
         const buttonsContainer = document.querySelector('.buttons');
         const h1 = document.getElementById('main-title');
 
-        // Hide GIF & buttons initially
         gifContainer.style.opacity = '0';
         buttonsContainer.style.opacity = '0';
 
@@ -408,7 +453,6 @@
             }, speed);
         }
 
-        // --- Staggered fade in of GIF + buttons ---
         function revealContent() {
             gifContainer.style.transition = 'opacity 0.6s ease';
             gifContainer.style.opacity = '1';
@@ -418,10 +462,21 @@
             }, 400);
         }
 
-        // --- Countdown ---
+        // --- Countdown (Babak 2 feel if from cake, generic otherwise) ---
         const overlay = document.getElementById('countdown-overlay');
         const numEl = document.getElementById('countdown-num');
-        const steps = ['3', '2', '1', '💌 Ada pesan untukmu...'];
+        const subEl = document.getElementById('countdown-sub');
+        const candleEl = document.getElementById('countdown-candles');
+
+        candleEl.classList.add('show');
+        if (fromCake) {
+            subEl.textContent = '🎉 Babak Dua dimulai...';
+        } else {
+            subEl.textContent = '✨ Ada kejutan untukmu...';
+        }
+        setTimeout(() => subEl.classList.add('show'), 300);
+
+        const steps = ['3', '2', '1', fromCake ? '🎁 Ini hadiahmu!' : '💌 Ada pesan untukmu...'];
         let step = 0;
 
         const tick = setInterval(() => {
@@ -430,7 +485,11 @@
                 numEl.style.opacity = '0';
                 setTimeout(() => {
                     numEl.textContent = steps[step];
-                    if (step === steps.length - 1) numEl.style.fontSize = 'clamp(1.5rem, 5vw, 3rem)';
+                    if (step === steps.length - 1) {
+                        numEl.style.fontSize = 'clamp(1.5rem, 5vw, 3rem)';
+                        candleEl.classList.remove('show');
+                        subEl.classList.remove('show');
+                    }
                     numEl.style.opacity = '1';
                 }, 200);
             } else {
@@ -438,7 +497,6 @@
                 overlay.style.opacity = '0';
                 setTimeout(() => {
                     overlay.remove();
-                    // Show container, then start typing
                     containerEl.style.transition = 'opacity 0.8s ease';
                     containerEl.style.opacity = '1';
                     setTimeout(() => {
@@ -516,6 +574,7 @@
                 showTeaseMessage(msg);
                 return;
             }
+            sessionStorage.setItem('from_index', '1');
             window.location.href = 'yes.html';
         }
 

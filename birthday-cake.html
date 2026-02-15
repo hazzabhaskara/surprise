@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Tiup Lilinmu, Eva! 🎂</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@400;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ══════════════════════════════════════
+       ROOT & RESET
+    ══════════════════════════════════════ */
+        :root {
+            --bg: #080810;
+            --gold: #f5c842;
+            --pink: #ff6b9d;
+            --coral: #ff8c69;
+            --lavender: #c084fc;
+            --white: #f0eeff;
+            --cake1: #ff6b9d;
+            /* bottom tier */
+            --cake2: #f5c842;
+            /* mid tier    */
+            --cake3: #c084fc;
+            /* top tier    */
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            font-family: 'Nunito', sans-serif;
+            color: var(--white);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ══════════════════════════════════════
+       STARS
+    ══════════════════════════════════════ */
+        #stars {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--d) ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from {
+                opacity: .05;
+                transform: scale(.8);
+            }
+
+            to {
+                opacity: .85;
+                transform: scale(1.3);
+            }
+        }
+
+        /* ══════════════════════════════════════
+       FLOATING EMOJIS BACKGROUND
+    ══════════════════════════════════════ */
+        #floaters {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floater {
+            position: absolute;
+            font-size: var(--sz);
+            bottom: -60px;
+            left: var(--lft);
+            animation: floatUp var(--spd) ease-in infinite;
+            animation-delay: var(--del);
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            10% {
+                opacity: .5;
+            }
+
+            90% {
+                opacity: .15;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-110vh) rotate(360deg);
+            }
+        }
+
+        /* ══════════════════════════════════════
+       MAIN WRAPPER
+    ══════════════════════════════════════ */
+        #app {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 480px;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+
+        /* ══════════════════════════════════════
+       SCREEN MANAGEMENT
+    ══════════════════════════════════════ */
+        .screen {
+            width: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* ══════════════════════════════════════
+       PERMISSION SCREEN
+    ══════════════════════════════════════ */
+        #perm-screen {
+            text-align: center;
+            animation: fadeDown .8s ease both;
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .perm-icon {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: 6px;
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-12px) scale(1.08);
+            }
+        }
+
+        .perm-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            background: linear-gradient(135deg, var(--gold), var(--coral), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .perm-desc {
+            font-size: .92rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, .65);
+            margin-bottom: 6px;
+        }
+
+        .perm-steps {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 16px;
+            padding: 16px 20px;
+            text-align: left;
+            margin: 8px 0;
+            font-size: .85rem;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, .75);
+        }
+
+        .perm-steps b {
+            color: var(--gold);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--coral));
+            color: #1a1a2e;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 900;
+            padding: 16px 44px;
+            cursor: pointer;
+            box-shadow: 0 8px 28px rgba(245, 200, 66, .4);
+            transition: transform .2s, box-shadow .2s;
+            letter-spacing: .5px;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.06) translateY(-2px);
+            box-shadow: 0 12px 36px rgba(245, 200, 66, .55);
+        }
+
+        .btn-primary:active {
+            transform: scale(.97);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .07);
+            color: rgba(255, 255, 255, .6);
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-size: .85rem;
+            font-weight: 700;
+            padding: 10px 26px;
+            cursor: pointer;
+            transition: background .2s;
+            margin-top: -6px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, .14);
+        }
+
+        /* Error / warning box */
+        #error-box {
+            display: none;
+            background: rgba(255, 59, 48, .12);
+            border: 1px solid rgba(255, 59, 48, .35);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: .85rem;
+            color: #ff6b6b;
+            text-align: center;
+            width: 100%;
+        }
+
+        #error-box.show {
+            display: block;
+        }
+
+        /* ══════════════════════════════════════
+       CAKE SCREEN
+    ══════════════════════════════════════ */
+        #cake-screen {
+            animation: fadeDown .6s ease both;
+        }
+
+        /* Header */
+        .cake-header {
+            text-align: center;
+        }
+
+        .cake-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            background: linear-gradient(135deg, var(--gold) 0%, var(--coral) 50%, var(--pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+        }
+
+        .cake-subtitle {
+            font-size: .78rem;
+            color: rgba(255, 255, 255, .4);
+            margin-top: 4px;
+            letter-spacing: .08em;
+        }
+
+        /* Counter pill */
+        .candle-counter {
+            background: rgba(255, 107, 157, .12);
+            border: 1px solid rgba(255, 107, 157, .3);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: .95rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all .4s ease;
+        }
+
+        .candle-counter .num {
+            font-size: 1.3rem;
+            color: var(--gold);
+            transition: all .3s ease;
+            display: inline-block;
+        }
+
+        .candle-counter .num.pop {
+            animation: numPop .35s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        @keyframes numPop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.6);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* ══════════════════════════════════════
+       CAKE VISUAL
+    ══════════════════════════════════════ */
+        .cake-scene {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, .5));
+        }
+
+        /* Candles platform (sits above cake top) */
+        .candles-platform {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: -4px;
+            z-index: 2;
+        }
+
+        .candles-row {
+            display: flex;
+            gap: 6px;
+            align-items: flex-end;
+        }
+
+        /* Individual candle */
+        .candle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: 16px;
+        }
+
+        /* Flame wrapper */
+        .flame-wrap {
+            width: 14px;
+            height: 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+        }
+
+        .flame {
+            width: 10px;
+            height: 16px;
+            border-radius: 50% 50% 30% 30% / 60% 60% 40% 40%;
+            background: radial-gradient(ellipse at 50% 80%,
+                    #fff 0%, #ffe066 25%, #ffaa00 55%, #ff4400 80%, transparent 100%);
+            box-shadow:
+                0 0 6px 2px rgba(255, 200, 50, .6),
+                0 0 14px 4px rgba(255, 120, 0, .3);
+            animation: flicker .35s ease-in-out infinite alternate;
+            transform-origin: bottom center;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: scaleX(1) scaleY(1) rotate(-2deg);
+                opacity: 1;
+            }
+
+            33% {
+                transform: scaleX(.88) scaleY(1.08) rotate(1deg);
+                opacity: .95;
+            }
+
+            66% {
+                transform: scaleX(1.06) scaleY(.95) rotate(-1deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scaleX(.92) scaleY(1.05) rotate(2deg);
+                opacity: .92;
+            }
+        }
+
+        /* Smoke */
+        .smoke {
+            position: absolute;
+            bottom: 14px;
+            width: 6px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .smoke-puff {
+            width: 6px;
+            height: 6px;
+            background: rgba(200, 200, 220, .7);
+            border-radius: 50%;
+            position: absolute;
+            animation: smokePuff 1.8s ease-out forwards;
+        }
+
+        .smoke-puff:nth-child(1) {
+            animation-delay: 0s;
+            left: 0px;
+        }
+
+        .smoke-puff:nth-child(2) {
+            animation-delay: .18s;
+            left: 2px;
+        }
+
+        .smoke-puff:nth-child(3) {
+            animation-delay: .36s;
+            left: -2px;
+        }
+
+        @keyframes smokePuff {
+            0% {
+                opacity: .7;
+                transform: translateY(0) scale(.5);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-30px) scale(2.5);
+            }
+        }
+
+        /* Wick */
+        .wick {
+            width: 2px;
+            height: 5px;
+            background: #444;
+            border-radius: 1px;
+            margin-bottom: -1px;
+        }
+
+        /* Candle body */
+        .candle-body {
+            width: 10px;
+            height: 28px;
+            border-radius: 3px 3px 1px 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .candle-body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 2px;
+            right: 2px;
+            height: 40%;
+            background: rgba(255, 255, 255, .2);
+            border-radius: 1px;
+        }
+
+        .candle-base {
+            width: 14px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, .15);
+        }
+
+        /* Candle colors cycling */
+        .candle:nth-child(6n+1) .candle-body {
+            background: linear-gradient(to bottom, #ff8fa3, #ff2d55);
+        }
+
+        .candle:nth-child(6n+2) .candle-body {
+            background: linear-gradient(to bottom, #ffe066, #f5c842);
+        }
+
+        .candle:nth-child(6n+3) .candle-body {
+            background: linear-gradient(to bottom, #d8aaff, #bf5af2);
+        }
+
+        .candle:nth-child(6n+4) .candle-body {
+            background: linear-gradient(to bottom, #80d8ff, #0a84ff);
+        }
+
+        .candle:nth-child(6n+5) .candle-body {
+            background: linear-gradient(to bottom, #a8f5a2, #30d158);
+        }
+
+        .candle:nth-child(6n+0) .candle-body {
+            background: linear-gradient(to bottom, #ffb870, #ff6b2b);
+        }
+
+        .candle:nth-child(6n+1) .candle-base {
+            background: #ff2d55;
+        }
+
+        .candle:nth-child(6n+2) .candle-base {
+            background: #f5c842;
+        }
+
+        .candle:nth-child(6n+3) .candle-base {
+            background: #bf5af2;
+        }
+
+        .candle:nth-child(6n+4) .candle-base {
+            background: #0a84ff;
+        }
+
+        .candle:nth-child(6n+5) .candle-base {
+            background: #30d158;
+        }
+
+        .candle:nth-child(6n+0) .candle-base {
+            background: #ff6b2b;
+        }
+
+        /* ── CAKE TIERS ── */
+        .cake-tier {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .frosting {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            z-index: 2;
+            overflow: visible;
+        }
+
+        .frosting-base {
+            position: absolute;
+            top: 6px;
+            left: 0;
+            right: 0;
+            height: 14px;
+            background: rgba(255, 255, 255, .92);
+            border-radius: 2px;
+        }
+
+        .drip {
+            position: absolute;
+            top: 14px;
+            width: 10px;
+            height: var(--dh);
+            background: rgba(255, 255, 255, .88);
+            border-radius: 0 0 6px 6px;
+        }
+
+        .tier-body {
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tier-body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg, transparent 0px, transparent 14px,
+                    rgba(255, 255, 255, .07) 14px, rgba(255, 255, 255, .07) 16px);
+        }
+
+        .tier-body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 30%;
+            border-radius: inherit;
+            background: linear-gradient(to right, rgba(255, 255, 255, .12), transparent);
+        }
+
+        /* Tier sizes & colors */
+        #tier-top {
+            width: 260px;
+            height: 55px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        #tier-top .tier-body {
+            background: linear-gradient(to bottom, #d8a4ff, #a855f7);
+        }
+
+        #tier-mid {
+            width: 300px;
+            height: 65px;
+            border-radius: 2px;
+        }
+
+        #tier-mid .tier-body {
+            background: linear-gradient(to bottom, #ffd966, #e8aa00);
+        }
+
+        #tier-bot {
+            width: 340px;
+            height: 75px;
+            border-radius: 0 0 18px 18px;
+        }
+
+        #tier-bot .tier-body {
+            background: linear-gradient(to bottom, #ff8fb3, #e8175d);
+        }
+
+        /* Plate */
+        .cake-plate {
+            width: 360px;
+            height: 16px;
+            background: linear-gradient(to bottom, #e8e0d0, #c8bca8);
+            border-radius: 50%;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, .3);
+            margin-top: -4px;
+        }
+
+        /* Glow under cake */
+        .cake-glow {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 260px;
+            height: 80px;
+            background: radial-gradient(ellipse, rgba(255, 200, 50, .25) 0%, transparent 70%);
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        /* Candle blown-out state */
+        .candle.blown .flame {
+            display: none;
+        }
+
+        .candle.blown .flame-wrap {
+            visibility: visible;
+        }
+
+        .candle.blown .wick {
+            background: #222;
+        }
+
+        /* ══════════════════════════════════════
+       MIC LEVEL METER
+    ══════════════════════════════════════ */
+        .mic-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mic-label {
+            font-size: .78rem;
+            color: rgba(255, 255, 255, .4);
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .mic-meter-wrap {
+            width: 100%;
+            max-width: 320px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 99px;
+            height: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .mic-meter-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 99px;
+            background: linear-gradient(90deg, #30d158, #f5c842, #ff2d55);
+            transition: width .08s ease;
+            box-shadow: 0 0 8px rgba(255, 200, 50, .4);
+        }
+
+        .mic-threshold-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 10%;
+            width: 2px;
+            background: rgba(255, 255, 255, .25);
+            border-radius: 1px;
+        }
+
+        .blow-indicator {
+            font-size: .85rem;
+            font-weight: 800;
+            height: 22px;
+            color: var(--gold);
+            opacity: 0;
+            transition: opacity .2s;
+            letter-spacing: .05em;
+        }
+
+        .blow-indicator.active {
+            opacity: 1;
+            animation: blowPulse .4s ease infinite alternate;
+        }
+
+        @keyframes blowPulse {
+            from {
+                opacity: .8;
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.04);
+            }
+        }
+
+        /* Tap mode button */
+        #tap-btn {
+            display: none;
+            background: linear-gradient(135deg, var(--pink), var(--lavender));
+            color: #1a1a2e;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            font-weight: 900;
+            padding: 14px 36px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 107, 157, .4);
+            transition: transform .15s, box-shadow .15s;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        #tap-btn:hover {
+            transform: scale(1.05) translateY(-2px);
+        }
+
+        #tap-btn:active {
+            transform: scale(.96);
+        }
+
+        #tap-btn.show {
+            display: block;
+        }
+
+        /* Hint text */
+        .hint-text {
+            font-size: .78rem;
+            color: rgba(255, 255, 255, .3);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .hint-text span {
+            color: var(--pink);
+            font-weight: 700;
+        }
+
+        /* ══════════════════════════════════════
+       CELEBRATION OVERLAY
+    ══════════════════════════════════════ */
+        #celebration {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(8, 8, 16, .92);
+            backdrop-filter: blur(10px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            gap: 20px;
+        }
+
+        #celebration.show {
+            display: flex;
+        }
+
+        .celeb-emoji {
+            font-size: 5rem;
+            animation: celebBounce .6s ease-in-out infinite alternate;
+        }
+
+        @keyframes celebBounce {
+            from {
+                transform: translateY(0) scale(1);
+            }
+
+            to {
+                transform: translateY(-14px) scale(1.1);
+            }
+        }
+
+        .celeb-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 6vw, 2.8rem);
+            background: linear-gradient(135deg, var(--gold) 0%, var(--coral) 50%, var(--pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+            animation: celebFadeIn .8s ease both;
+        }
+
+        .celeb-sub {
+            font-size: clamp(.9rem, 2.5vw, 1.1rem);
+            color: rgba(255, 255, 255, .7);
+            line-height: 1.7;
+            animation: celebFadeIn .8s .3s ease both;
+        }
+
+        .celeb-redirect {
+            font-size: .8rem;
+            color: rgba(255, 255, 255, .35);
+            letter-spacing: .1em;
+            animation: celebFadeIn .8s .6s ease both;
+        }
+
+        .celeb-countdown {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 10vw, 4.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            min-height: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity .2s ease;
+        }
+
+        @keyframes celebFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ══════════════════════════════════════
+       CONFETTI CANVAS
+    ══════════════════════════════════════ */
+        #confetti {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            pointer-events: none;
+        }
+
+        /* ══════════════════════════════════════
+       FLASH
+    ══════════════════════════════════════ */
+        #flash {
+            position: fixed;
+            inset: 0;
+            z-index: 400;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        #flash.go {
+            animation: flashOut .5s ease-out forwards;
+        }
+
+        @keyframes flashOut {
+            0% {
+                opacity: .5;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+        @media (max-width: 360px) {
+            #tier-top {
+                width: 220px;
+            }
+
+            #tier-mid {
+                width: 256px;
+            }
+
+            #tier-bot {
+                width: 290px;
+            }
+
+            .cake-plate {
+                width: 310px;
+            }
+
+            .candles-row {
+                gap: 4px;
+            }
+
+            .candle {
+                width: 14px;
+            }
+
+            .candle-body {
+                width: 8px;
+                height: 24px;
+            }
+        }
+
+        @media (min-height: 800px) {
+            .candle-body {
+                height: 34px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Stars -->
+    <div id="stars"></div>
+    <!-- Floating emojis -->
+    <div id="floaters"></div>
+    <!-- Flash effect -->
+    <div id="flash"></div>
+    <!-- Confetti canvas -->
+    <canvas id="confetti"></canvas>
+
+    <!-- Celebration overlay -->
+    <div id="celebration">
+        <div class="celeb-emoji">🎂</div>
+        <div class="celeb-title">Selamat Ulang Tahun<br>ke-22, Eva! 🎉</div>
+        <div class="celeb-sub">
+            Semua 22 lilin berhasil kamu tiup! 💨🕯️<br>
+            <em style="color: var(--pink); font-style:normal; font-weight:800;">
+                Semua doamu pasti terkabul, Sayang! 💖
+            </em>
+        </div>
+        <div class="celeb-redirect" id="celeb-redirect">✨ Menyiapkan kejutanmu...</div>
+        <div class="celeb-countdown" id="celeb-countdown"></div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app">
+
+        <!-- ══ SCREEN 1: Permission ══ -->
+        <div id="perm-screen" class="screen active">
+            <span class="perm-icon">🎂</span>
+            <h1 class="perm-title">Tiup Lilin Ulang Tahunmu, Eva!</h1>
+            <p class="perm-desc">Ada <strong style="color:var(--gold)">22 lilin</strong> menunggumu. Tiup semuanya pakai
+                napas kamu — lewat mikrofon HP atau laptop! 💨</p>
+
+            <div class="perm-steps">
+                <b>📱 iPhone / iPad:</b> Tap tombol di bawah → pilih "Allow" di popup Safari<br>
+                <b>🤖 Android:</b> Tap tombol → izinkan mikrofon<br>
+                <b>💻 Laptop / Mac:</b> Klik tombol → izinkan mikrofon di browser<br>
+                <b>💡 Pastikan:</b> Buka lewat HTTPS (GitHub Pages) bukan file://
+            </div>
+
+            <div id="error-box">⚠️ <span id="error-msg">Error</span></div>
+
+            <button class="btn-primary" id="start-mic-btn">
+                🎤 Izinkan Mikrofon & Mulai!
+            </button>
+            <button class="btn-secondary" id="use-tap-btn">
+                Pakai mode tap aja 👆
+            </button>
+        </div>
+
+        <!-- ══ SCREEN 2: Cake ══ -->
+        <div id="cake-screen" class="screen">
+
+            <!-- Header -->
+            <div class="cake-header">
+                <h1 class="cake-title">Tiup semua lilinnya, Eva! 💨</h1>
+                <p class="cake-subtitle" id="mode-label">Mode: Mikrofon aktif 🎤</p>
+            </div>
+
+            <!-- Counter -->
+            <div class="candle-counter">
+                🕯️ Sisa <span class="num" id="counter-num">22</span> lilin lagi!
+            </div>
+
+            <!-- Cake Visual -->
+            <div class="cake-scene">
+                <div class="cake-glow" id="cake-glow"></div>
+
+                <!-- Candles on top of cake -->
+                <div class="candles-platform">
+                    <div class="candles-row" id="row-top"></div>
+                    <div class="candles-row" id="row-bot"></div>
+                </div>
+
+                <!-- Top tier -->
+                <div class="cake-tier" id="tier-top">
+                    <div class="tier-body"></div>
+                    <div class="frosting">
+                        <div class="frosting-base"></div>
+                    </div>
+                </div>
+
+                <!-- Mid tier -->
+                <div class="cake-tier" id="tier-mid">
+                    <div class="tier-body"></div>
+                    <div class="frosting">
+                        <div class="frosting-base"></div>
+                    </div>
+                </div>
+
+                <!-- Bottom tier -->
+                <div class="cake-tier" id="tier-bot">
+                    <div class="tier-body"></div>
+                    <div class="frosting">
+                        <div class="frosting-base"></div>
+                    </div>
+                </div>
+
+                <div class="cake-plate"></div>
+            </div>
+
+            <!-- Mic section -->
+            <div class="mic-section" id="mic-section">
+                <div class="mic-label" id="mic-label">Mendeteksi tiupan... 🎤</div>
+                <div class="mic-meter-wrap">
+                    <div class="mic-meter-fill" id="mic-fill"></div>
+                    <div class="mic-threshold-line"></div>
+                </div>
+                <div class="blow-indicator" id="blow-indicator">💨 Tiupan terdeteksi!</div>
+            </div>
+
+            <!-- Tap mode button (hidden in mic mode) -->
+            <button id="tap-btn" onclick="handleTap()">
+                💨 Tap untuk tiup lilin!
+            </button>
+
+            <!-- Hint -->
+            <p class="hint-text">
+                Tiup keras ke mikrofon! 💨<br>
+                <span>1 tiupan = 1–2 lilin padam</span>
+            </p>
+
+        </div><!-- /cake-screen -->
+
+    </div><!-- /app -->
+
+    <script>
+        /* ════════════════════════════════════════════════════════════════
+           CONSTANTS & STATE
+        ════════════════════════════════════════════════════════════════ */
+        const TOTAL = 22;
+        const BLOW_THRESHOLD = 26;
+        const MIN_FRAMES = 4;
+        const COOLDOWN_MS = 650;
+        const REDIRECT_URL = 'index.html';
+        const REDIRECT_DELAY = 4500;
+
+        let audioCtx = null;
+        let analyser = null;
+        let dataArray = null;
+        let rafId = null;
+        let isListening = false;
+        let isTapMode = false;
+
+        let candlesBlown = 0;
+        let sustainedFrames = 0;
+        let lastBlowTime = 0;
+        let isAllBlown = false;
+
+        let litCandles = [];
+        let blowQueue = [];
+
+        /* ════════════════════════════════════════════════════════════════
+           BACKGROUND: STARS
+        ════════════════════════════════════════════════════════════════ */
+        (function buildStars() {
+            const c = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                const sz = Math.random() * 2.4 + .4;
+                s.style.cssText = `width:${sz}px;height:${sz}px;`
+                    + `left:${Math.random() * 100}%;top:${Math.random() * 100}%;`
+                    + `--d:${2 + Math.random() * 4}s;`
+                    + `animation-delay:${Math.random() * 6}s`;
+                c.appendChild(s);
+            }
+        })();
+
+        /* ════════════════════════════════════════════════════════════════
+           BACKGROUND: FLOATING EMOJIS
+        ════════════════════════════════════════════════════════════════ */
+        (function buildFloaters() {
+            const c = document.getElementById('floaters');
+            const ems = ['🎂', '🎈', '✨', '🎉', '💕', '🌸', '🎁', '🕯️', '💫'];
+            for (let i = 0; i < 14; i++) {
+                const d = document.createElement('div');
+                d.className = 'floater';
+                d.textContent = ems[i % ems.length];
+                const sz = 12 + Math.random() * 16;
+                d.style.cssText = `--sz:${sz}px;--lft:${Math.random() * 100}%;`
+                    + `--spd:${10 + Math.random() * 14}s;--del:${Math.random() * 14}s`;
+                c.appendChild(d);
+            }
+        })();
+
+        /* ════════════════════════════════════════════════════════════════
+           BUILD CAKE: CANDLES
+        ════════════════════════════════════════════════════════════════ */
+        function buildCake() {
+            const rowTop = document.getElementById('row-top');
+            const rowBot = document.getElementById('row-bot');
+
+            for (let i = 0; i < TOTAL; i++) {
+                const row = i < 11 ? rowTop : rowBot;
+                const idx = i;
+
+                const candle = document.createElement('div');
+                candle.className = 'candle';
+                candle.id = 'candle-' + idx;
+
+                candle.innerHTML = `
+      <div class="flame-wrap">
+        <div class="flame" id="flame-${idx}"></div>
+        <div class="smoke" id="smoke-${idx}">
+          <div class="smoke-puff"></div>
+          <div class="smoke-puff"></div>
+          <div class="smoke-puff"></div>
+        </div>
+      </div>
+      <div class="wick" id="wick-${idx}"></div>
+      <div class="candle-body"></div>
+      <div class="candle-base"></div>
+    `;
+
+                row.appendChild(candle);
+                litCandles.push(idx);
+            }
+
+            blowQueue = [...Array(TOTAL).keys()];
+            for (let i = blowQueue.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [blowQueue[i], blowQueue[j]] = [blowQueue[j], blowQueue[i]];
+            }
+
+            ['tier-top', 'tier-mid', 'tier-bot'].forEach(id => {
+                const tier = document.getElementById(id);
+                const frost = tier.querySelector('.frosting');
+                const tWidth = { 'tier-top': 260, 'tier-mid': 300, 'tier-bot': 340 }[id];
+                const count = Math.floor(tWidth / 30);
+                for (let i = 0; i < count; i++) {
+                    const drip = document.createElement('div');
+                    drip.className = 'drip';
+                    const h = 6 + Math.random() * 14;
+                    drip.style.cssText = `left:${5 + i * (90 / count)}%;--dh:${h}px`;
+                    frost.appendChild(drip);
+                }
+            });
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           EXTINGUISH ONE CANDLE
+        ════════════════════════════════════════════════════════════════ */
+        function extinguishNextCandle() {
+            if (blowQueue.length === 0) return;
+
+            const idx = blowQueue.shift();
+            const candle = document.getElementById('candle-' + idx);
+            if (!candle || candle.classList.contains('blown')) {
+                if (blowQueue.length > 0) extinguishNextCandle();
+                return;
+            }
+
+            candle.classList.add('blown');
+            candlesBlown++;
+
+            const smoke = document.getElementById('smoke-' + idx);
+            if (smoke) {
+                smoke.style.opacity = '1';
+                smoke.querySelectorAll('.smoke-puff').forEach(puff => {
+                    puff.style.animation = 'none';
+                    void puff.offsetWidth;
+                    puff.style.animation = '';
+                });
+                setTimeout(() => { smoke.style.opacity = '0'; }, 2000);
+            }
+
+            const remaining = TOTAL - candlesBlown;
+            updateCounter(remaining);
+
+            const glowOpacity = remaining / TOTAL;
+            const glow = document.getElementById('cake-glow');
+            if (glow) glow.style.opacity = String(glowOpacity);
+
+            if (candlesBlown >= TOTAL && !isAllBlown) {
+                isAllBlown = true;
+                stopDetection();
+                setTimeout(celebrate, 600);
+            }
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           UPDATE COUNTER UI
+        ════════════════════════════════════════════════════════════════ */
+        function updateCounter(remaining) {
+            const el = document.getElementById('counter-num');
+            if (!el) return;
+            el.textContent = remaining;
+            el.classList.remove('pop');
+            void el.offsetWidth;
+            el.classList.add('pop');
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           MIC: INIT
+        ════════════════════════════════════════════════════════════════ */
+        async function initMicrophone() {
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+                if (audioCtx.state === 'suspended') {
+                    await audioCtx.resume();
+                }
+
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false
+                    },
+                    video: false
+                });
+
+                const source = audioCtx.createMediaStreamSource(stream);
+                analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 512;
+                analyser.smoothingTimeConstant = 0.6;
+                source.connect(analyser);
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+                isListening = true;
+                detectBlow();
+                return true;
+
+            } catch (err) {
+                let msg = 'Ada masalah dengan mikrofon. Coba lagi atau pakai mode tap.';
+
+                if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                    msg = 'Izin mikrofon ditolak. 🥺 Cek pengaturan browser/HP kamu, atau pakai mode tap.';
+                } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+                    msg = 'Mikrofon tidak ditemukan di perangkat ini. Pakai mode tap ya!';
+                } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
+                    msg = 'Mikrofon sedang dipakai app lain. Tutup app lain dan coba lagi.';
+                } else if (err.name === 'SecurityError') {
+                    msg = 'Butuh HTTPS untuk akses mikrofon. Pastikan buka lewat GitHub Pages (https://).';
+                }
+
+                showError(msg);
+                return false;
+            }
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           MIC: DETECTION LOOP
+        ════════════════════════════════════════════════════════════════ */
+        function detectBlow() {
+            if (!isListening || !analyser || isAllBlown) return;
+
+            analyser.getByteFrequencyData(dataArray);
+
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) { sum += dataArray[i]; }
+            const avg = sum / dataArray.length;
+
+            const pct = Math.min((avg / 80) * 100, 100);
+            const fill = document.getElementById('mic-fill');
+            if (fill) fill.style.width = pct + '%';
+
+            const indicator = document.getElementById('blow-indicator');
+            const now = Date.now();
+
+            if (avg > BLOW_THRESHOLD) {
+                sustainedFrames++;
+
+                if (sustainedFrames >= MIN_FRAMES && (now - lastBlowTime) > COOLDOWN_MS) {
+                    if (indicator) indicator.classList.add('active');
+
+                    const strength = avg > 60 ? 3 : avg > 40 ? 2 : 1;
+                    for (let i = 0; i < strength && !isAllBlown; i++) {
+                        extinguishNextCandle();
+                    }
+
+                    lastBlowTime = now;
+                    sustainedFrames = 0;
+
+                    setTimeout(() => {
+                        if (indicator) indicator.classList.remove('active');
+                    }, 500);
+                }
+
+            } else {
+                sustainedFrames = Math.max(0, sustainedFrames - 1);
+                if (sustainedFrames === 0 && indicator) {
+                    indicator.classList.remove('active');
+                }
+            }
+
+            rafId = requestAnimationFrame(detectBlow);
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           STOP DETECTION
+        ════════════════════════════════════════════════════════════════ */
+        function stopDetection() {
+            isListening = false;
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           TAP MODE
+        ════════════════════════════════════════════════════════════════ */
+        function handleTap() {
+            if (isAllBlown) return;
+            if (!isTapMode) return;
+
+            extinguishNextCandle();
+            if (blowQueue.length > 0 && Math.random() > 0.5) {
+                setTimeout(extinguishNextCandle, 200);
+            }
+        }
+
+        function enableTapMode() {
+            isTapMode = true;
+            stopDetection();
+
+            const micSection = document.getElementById('mic-section');
+            const tapBtn = document.getElementById('tap-btn');
+            const modeLabel = document.getElementById('mode-label');
+
+            if (micSection) micSection.style.display = 'none';
+            if (tapBtn) tapBtn.classList.add('show');
+            if (modeLabel) modeLabel.textContent = 'Mode: Tap 👆 (mikrofon tidak tersedia)';
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           SHOW / HIDE SCREENS
+        ════════════════════════════════════════════════════════════════ */
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const el = document.getElementById(id);
+            if (el) el.classList.add('active');
+        }
+
+        function showError(msg) {
+            const box = document.getElementById('error-box');
+            const msgEl = document.getElementById('error-msg');
+            if (box && msgEl) {
+                msgEl.textContent = msg;
+                box.classList.add('show');
+            }
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           CELEBRATION
+        ════════════════════════════════════════════════════════════════ */
+        function celebrate() {
+            const cel = document.getElementById('celebration');
+            if (cel) cel.classList.add('show');
+
+            const flash = document.getElementById('flash');
+            if (flash) {
+                flash.style.background = 'linear-gradient(135deg, #FFD700, #FF6B9D)';
+                flash.classList.remove('go');
+                void flash.offsetWidth;
+                flash.classList.add('go');
+            }
+
+            launchConfetti();
+
+            const redirectEl = document.getElementById('celeb-redirect');
+            const countdownEl = document.getElementById('celeb-countdown');
+
+            if (redirectEl) redirectEl.textContent = '🌙 Keinginanmu sudah aku dengar...';
+
+            const countSteps = ['3', '2', '1'];
+            countSteps.forEach((num, i) => {
+                setTimeout(() => {
+                    if (!countdownEl) return;
+                    countdownEl.style.opacity = '0';
+                    setTimeout(() => {
+                        countdownEl.textContent = num;
+                        countdownEl.style.opacity = '1';
+                    }, 150);
+                }, 1200 + i * 900);
+            });
+
+            setTimeout(() => {
+                if (countdownEl) {
+                    countdownEl.style.opacity = '0';
+                    setTimeout(() => {
+                        countdownEl.textContent = '🎁';
+                        countdownEl.style.opacity = '1';
+                        countdownEl.style.fontSize = 'clamp(3rem, 12vw, 6rem)';
+                    }, 150);
+                }
+                if (redirectEl) redirectEl.textContent = 'Sekarang buka hadiahmu! ✨';
+            }, 4200);
+
+            setTimeout(() => {
+                sessionStorage.setItem('from_cake', '1');
+                window.location.href = REDIRECT_URL;
+            }, 5200);
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           CONFETTI
+        ════════════════════════════════════════════════════════════════ */
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const COLORS = ['#f5c842', '#ff6b9d', '#ff8c69', '#c084fc',
+                '#fff', '#ffd6e7', '#ff2d55', '#30d158', '#0a84ff'];
+            const SHAPES = ['rect', 'circle', 'star'];
+
+            const particles = [];
+            for (let i = 0; i < 220; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: -30 - Math.random() * 300,
+                    vx: (Math.random() - .5) * 5,
+                    vy: 1.8 + Math.random() * 5,
+                    size: 5 + Math.random() * 10,
+                    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                    shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+                    rot: Math.random() * Math.PI * 2,
+                    rotV: (Math.random() - .5) * .14,
+                });
+            }
+
+            let frame = 0;
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += .04;
+                    p.rot += p.rotV;
+                    if (p.y > canvas.height + 20) {
+                        p.y = -20;
+                        p.x = Math.random() * canvas.width;
+                        p.vy = 1.8 + Math.random() * 4;
+                    }
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = .9;
+                    if (p.shape === 'rect') {
+                        ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+                    } else if (p.shape === 'circle') {
+                        ctx.beginPath();
+                        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else {
+                        ctx.beginPath();
+                        for (let s = 0; s < 5; s++) {
+                            ctx.lineTo(
+                                Math.cos((18 + 72 * s) * Math.PI / 180) * p.size / 2,
+                                Math.sin((18 + 72 * s) * Math.PI / 180) * p.size / 2
+                            );
+                            ctx.lineTo(
+                                Math.cos((54 + 72 * s) * Math.PI / 180) * p.size / 4,
+                                Math.sin((54 + 72 * s) * Math.PI / 180) * p.size / 4
+                            );
+                        }
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                });
+                frame++;
+                if (frame < 400) requestAnimationFrame(draw);
+                else ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            draw();
+        }
+
+        /* ════════════════════════════════════════════════════════════════
+           BUTTON HANDLERS
+        ════════════════════════════════════════════════════════════════ */
+        document.getElementById('start-mic-btn').addEventListener('click', async function () {
+            this.textContent = '⏳ Meminta izin...';
+            this.disabled = true;
+
+            buildCake();
+            showScreen('cake-screen');
+
+            const success = await initMicrophone();
+            if (!success) {
+                enableTapMode();
+            }
+        });
+
+        document.getElementById('use-tap-btn').addEventListener('click', function () {
+            buildCake();
+            showScreen('cake-screen');
+            enableTapMode();
+        });
+
+        /* ════════════════════════════════════════════════════════════════
+           WINDOW RESIZE
+        ════════════════════════════════════════════════════════════════ */
+        window.addEventListener('resize', function () {
+            const canvas = document.getElementById('confetti');
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+        });
+
+        /* ════════════════════════════════════════════════════════════════
+           CLEANUP on page hide
+        ════════════════════════════════════════════════════════════════ */
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                stopDetection();
+            } else if (isListening) {
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume().then(() => detectBlow());
+                } else {
+                    detectBlow();
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
