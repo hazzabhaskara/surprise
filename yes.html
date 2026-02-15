@@ -971,6 +971,50 @@
         .secret-close:hover {
             transform: scale(1.08) translateY(-2px);
         }
+
+        /* =========================================
+           CUSTOM CURSOR BUCIN 💘
+           ========================================= */
+        body {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="%23ff6b9d"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 14 14, auto;
+        }
+
+        button,
+        .float-heart,
+        .nav-btn,
+        .polaroid-wrapper,
+        .dot {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="%23f5c842"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 14 14, pointer !important;
+        }
+
+        /* =========================================
+           TOAST GOLDEN HEART 💛
+           ========================================= */
+        #golden-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(50px);
+            background: rgba(245, 200, 66, 0.95);
+            color: #1a1a2e;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 10px 30px rgba(245, 200, 66, 0.5);
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+            width: max-content;
+            max-width: 90vw;
+        }
+
+        #golden-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
     </style>
 </head>
 
@@ -1062,6 +1106,8 @@
             <button class="secret-close" onclick="closeSecretModal()">Aku Sayang Kamu! 😍</button>
         </div>
     </div>
+
+    <div id="golden-toast">Wah, kamu nangkep hati emasku! Berhak dapet 1 pelukan ekstra pas kita ketemu nanti! 🤗</div>
 
     <script>
         // ════════════════════════════════════════════════════════
@@ -1749,9 +1795,26 @@
         }
 
         // ════════════════════════════════════════════════════════
-        //  MINI GAME: CATCH THE HEARTS 🏹💕
+        //  MINI GAME LOGIC (FINAL + GOLDEN HEART + POP SFX) 🏹�
         // ════════════════════════════════════════════════════════
         let heartsCaught = 0;
+
+        // Pop SFX via Web Audio API (no external file needed)
+        function playPopSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.setValueAtTime(600, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.15);
+            } catch (e) { }
+        }
 
         (function createHeartsWithGame() {
             const container = document.getElementById('hearts');
@@ -1760,24 +1823,49 @@
             for (let i = 0; i < 40; i++) {
                 const h = document.createElement('div');
                 h.className = 'float-heart';
-                h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                const size = 18 + Math.random() * 22;
-                h.style.cssText = `--size:${size}px;--left:${Math.random() * 100}%;--dur2:${9 + Math.random() * 15}s;animation-delay:${Math.random() * 10}s;`;
+
+                const isGoldenHeart = (i === 39);
+
+                if (isGoldenHeart) {
+                    h.textContent = '💛';
+                    const baseSize = 18 + Math.random() * 22;
+                    const size = baseSize * 1.5;
+                    h.style.cssText = `--size:${size}px;--left:${Math.random() * 100}%;--dur2:${5 + Math.random() * 5}s;animation-delay:${Math.random() * 10}s; z-index: 51; filter: drop-shadow(0 0 15px rgba(245, 200, 66, 1));`;
+                } else {
+                    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    const size = (18 + Math.random() * 22) * 1.2;
+                    h.style.cssText = `--size:${size}px;--left:${Math.random() * 100}%;--dur2:${9 + Math.random() * 15}s;animation-delay:${Math.random() * 10}s;`;
+                }
 
                 h.onclick = function () {
                     if (this.classList.contains('popped')) return;
+
+                    // Play pop SFX
+                    playPopSound();
+
                     this.classList.add('popped');
                     heartsCaught++;
 
+                    // Golden heart toast
+                    if (isGoldenHeart) {
+                        const toast = document.getElementById('golden-toast');
+                        toast.classList.add('show');
+                        setTimeout(() => toast.classList.remove('show'), 3500);
+                    }
+
                     const counterBox = document.getElementById('heart-counter');
                     const countText = document.getElementById('heart-count');
-                    counterBox.classList.add('show');
-                    countText.textContent = heartsCaught;
+                    if (counterBox && countText) {
+                        counterBox.classList.add('show');
+                        countText.textContent = heartsCaught;
+                    }
 
                     spawnSparkles(3, ['✨', '💖']);
 
                     if (heartsCaught === 22) {
-                        setTimeout(() => openSecretModal(), 800);
+                        setTimeout(() => {
+                            if (typeof openSecretModal === 'function') openSecretModal();
+                        }, 800);
                     }
 
                     setTimeout(() => {
