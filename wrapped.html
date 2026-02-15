@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hazza & Eva - Wrapped 2026</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* =========================================
+           BASE STYLES & RESET
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #050505;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            height: 100dvh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Container ala HP (Story Layout) */
+        #story-container {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a0b1c 100%);
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(255, 107, 157, 0.1);
+        }
+
+        /* =========================================
+           PROGRESS BAR (TOP NAVIGATION)
+           ========================================= */
+        .progress-container {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            gap: 4px;
+            padding: 0 10px;
+            z-index: 100;
+        }
+
+        .progress-segment {
+            flex: 1;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #fff;
+            border-radius: 3px;
+        }
+
+        /* =========================================
+           TAP ZONES (LEFT / RIGHT)
+           ========================================= */
+        .tap-zone {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            z-index: 50;
+        }
+
+        .tap-left {
+            left: 0;
+            width: 35%;
+        }
+
+        .tap-right {
+            right: 0;
+            width: 65%;
+        }
+
+        /* =========================================
+           SLIDES & ANIMATIONS
+           ========================================= */
+        .slide {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 30px;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+            z-index: 20;
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #f5c842, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+        }
+
+        .subtext {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+            margin-top: auto;
+            padding-bottom: 20px;
+        }
+
+        .highlight {
+            color: #f5c842;
+            font-weight: 800;
+        }
+
+        .highlight-pink {
+            color: #ff6b9d;
+            font-weight: 800;
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(245, 200, 66, 0.5));
+        }
+
+        /* =========================================
+           CUSTOM ELEMENTS PER SLIDE
+           ========================================= */
+
+        /* Slide 3: Instagram DMs */
+        .ig-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .ig-bubble {
+            background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 20px;
+            border-bottom-right-radius: 4px;
+            align-self: flex-end;
+            font-size: 0.95rem;
+            max-width: 85%;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(253, 29, 29, 0.3);
+            position: relative;
+        }
+
+        .ig-time {
+            font-size: 0.65rem;
+            opacity: 0.7;
+            text-align: right;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Slide Counters */
+        .counter-box {
+            margin: 15px 0;
+        }
+
+        .counter-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #f5c842;
+            display: block;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(245, 200, 66, 0.4);
+        }
+
+        .counter-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff6b9d;
+            font-weight: 600;
+        }
+
+        /* Slide 5: VS Layout */
+        .vs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            margin: 25px 0;
+        }
+
+        .vs-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 10px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        .vs-title {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .vs-winner {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .vs-stat {
+            font-size: 0.85rem;
+            color: #ff6b9d;
+        }
+
+        /* Slide 8: Final Photo */
+        .polaroid {
+            background: #fff;
+            padding: 10px 10px 30px 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: rotate(-3deg);
+            margin-bottom: 25px;
+            border-radius: 2px;
+        }
+
+        .polaroid img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+        }
+
+        .btn-final {
+            margin-top: 20px;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #f5c842, #ff6b9d);
+            border: none;
+            border-radius: 50px;
+            color: #1a0b1c;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            z-index: 100;
+        }
+
+        .btn-final:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 107, 157, 0.6);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="story-container">
+        <div class="progress-container" id="progress-container">
+        </div>
+
+        <div class="tap-zone tap-left" onclick="prevSlide()"></div>
+        <div class="tap-zone tap-right" onclick="nextSlide()"></div>
+
+        <div class="slide active" id="slide-0">
+            <div class="icon">📍</div>
+            <p>Jarak dari <strong>Bandung</strong> ke <strong>Kota Belud</strong> itu jauh banget...</p>
+            <p>Beda pulau, beda negara, bahkan beda zona waktu 1 jam.</p>
+            <span class="subtext">(Ketuk kanan layar untuk lanjut)</span>
+        </div>
+
+        <div class="slide" id="slide-1">
+            <div class="icon">⏳</div>
+            <p>Sempat terpisah dan <em>lost contact</em> di awal 2023...</p>
+            <p>Siapa sangka takdir punya rencana yang jauh lebih indah buat kita?</p>
+            <p class="highlight-pink">Cerita kita ini ibarat film dengan plot twist paling sempurna.</p>
+        </div>
+
+        <div class="slide" id="slide-2">
+            <h1>The Spark</h1>
+            <p>Semuanya dimulai dari 29 April 2023. Tiga pesan DM Instagram di pagi hari...</p>
+
+            <div class="ig-container">
+                <div class="ig-bubble">
+                    Hi Kara
+                    <span class="ig-time">07:43</span>
+                </div>
+                <div class="ig-bubble" style="animation-delay: 0.3s;">
+                    Selamat Hari Raya! Maaf zahir batin ya hehe
+                    <span class="ig-time">07:44</span>
+                </div>
+                <div class="ig-bubble" style="animation-delay: 0.6s;">
+                    Gimana Kabarnya sekarang?
+                    <span class="ig-time">07:44</span>
+                </div>
+            </div>
+
+            <p>...pesan yang mengubah status kita dari 'asing' jadi <span class="highlight">'segalanya'</span>.</p>
+        </div>
+
+        <div class="slide" id="slide-3">
+            <h1>Dedikasi Gila</h1>
+            <p>Sejak hari itu, kita ngobrol tiap hari tanpa bolong sekalipun.</p>
+
+            <div class="counter-box">
+                <span class="counter-num" data-target="1024">0</span>
+                <span class="counter-label">Hari Streak Tanpa Putus</span>
+            </div>
+
+            <div class="counter-box">
+                <span class="counter-num" data-target="270037">0</span>
+                <span class="counter-label">Total Pesan Terkirim</span>
+            </div>
+
+            <p style="margin-top: 15px; font-size: 0.95rem;">Kita udah ngetik <strong>797.472 kata</strong>... Setara
+                sama 10 novel tebel! 📖</p>
+        </div>
+
+        <div class="slide" id="slide-4">
+            <h1>Head to Head ⚔️</h1>
+            <p>Dari ratusan ribu pesan itu, siapa yang paling dominan?</p>
+
+            <div class="vs-grid">
+                <div class="vs-card">
+                    <div class="vs-title">Pesan Terbanyak</div>
+                    <div class="vs-winner">Eva 👩🏻</div>
+                    <div class="vs-stat">135.608 pesan</div>
+                </div>
+                <div class="vs-card">
+                    <div class="vs-title">Bales Tercepet</div>
+                    <div class="vs-winner">Hazza 👨🏻</div>
+                    <div class="vs-stat">Avg 6.6 menit</div>
+                </div>
+                <div class="vs-card">
+                    <div class="vs-title">Sering Ketawa</div>
+                    <div class="vs-winner">Eva 😂</div>
+                    <div class="vs-stat">8.542 kali</div>
+                </div>
+                <div class="vs-card">
+                    <div class="vs-title">Si Paling Capslock</div>
+                    <div class="vs-winner">Hazza 🔥</div>
+                    <div class="vs-stat">14.313 kali</div>
+                </div>
+            </div>
+
+            <p>Kesimpulannya: Kamu bawelnya, aku *fast respon*nya. Pas kan? 😉</p>
+        </div>
+
+        <div class="slide" id="slide-5">
+            <div class="icon">🌙</div>
+            <h1>Sleepcall</h1>
+            <p>Kita punya jam sakti... Mulai sleepcall jam <span class="highlight">10 malem WIB</span> (Jam 11 di Kota
+                Belud).</p>
+            <p>Lalu tepat jam 11 WIB, pasti ada satu cewek manis yang ketiduran duluan 😴.</p>
+            <p>Udah <strong>7.347 pesan</strong> kita kirim di jam-jam rawan ini.</p>
+        </div>
+
+        <div class="slide" id="slide-6">
+            <p style="text-transform: uppercase; letter-spacing: 2px; color: #ff6b9d; font-weight: 800;">Total Panggilan
+                Sayang</p>
+            <div class="counter-box" style="margin: 5px 0 20px 0;">
+                <span class="counter-num" style="font-size: 4rem;" data-target="26152">0</span>
+            </div>
+
+            <p>Evolusi Bucin kita lucu banget kalau dilihat datanya:</p>
+            <ul
+                style="text-align: left; display: inline-block; color: rgba(255,255,255,0.8); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.8;">
+                <li><strong>2023:</strong> Seringnya manggil <em>"Babe"</em></li>
+                <li><strong>2024:</strong> Mulai berubah jadi <em>"Seng"</em></li>
+                <li><strong>2026:</strong> Kadang keceplosan manggil <em>"Papa"</em> 👀</li>
+            </ul>
+        </div>
+
+        <div class="slide" id="slide-7">
+            <div class="polaroid">
+                <img src="Foto/IMG-20240518-WA0046.jpg" alt="Our Memory"
+                    onerror="this.src='https://via.placeholder.com/300x250?text=Foto+Kita'">
+            </div>
+
+            <p>270 ribu pesan, ratusan jam telepon, dan rindu yang ga kehitung.</p>
+            <p class="highlight-pink">Di umur kamu yang ke-22 ini, aku cuma mau satu hal...</p>
+            <p>Nambah terus angka itu bareng kamu, sampai kita ga perlu <em>chatting</em> lagi karena udah serumah.</p>
+
+            <button class="btn-final" onclick="claimGift()">Amin! ❤️<br><span
+                    style="font-size: 0.8rem; font-weight: 400;">(Buka Kejutan Terakhir)</span></button>
+        </div>
+    </div>
+
+    <script>
+        const TOTAL_SLIDES = 8;
+        const SLIDE_DURATION = 8000;
+        let currentSlide = 0;
+        let progressTimer;
+        let startTime;
+
+        // Inisialisasi Progress Bar
+        const progressContainer = document.getElementById('progress-container');
+        for (let i = 0; i < TOTAL_SLIDES; i++) {
+            const segment = document.createElement('div');
+            segment.className = 'progress-segment';
+            segment.innerHTML = `<div class="progress-fill" id="fill-${i}"></div>`;
+            progressContainer.appendChild(segment);
+        }
+
+        // Fungsi Menjalankan Story
+        function startStory() {
+            showSlide(0);
+        }
+
+        function showSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= TOTAL_SLIDES) {
+                index = TOTAL_SLIDES - 1;
+                return;
+            }
+
+            document.querySelectorAll('.slide').forEach(el => el.classList.remove('active'));
+
+            const activeSlide = document.getElementById(`slide-${index}`);
+            activeSlide.classList.add('active');
+
+            currentSlide = index;
+
+            for (let i = 0; i < TOTAL_SLIDES; i++) {
+                const fill = document.getElementById(`fill-${i}`);
+                fill.style.transition = 'none';
+
+                if (i < currentSlide) {
+                    fill.style.width = '100%';
+                } else if (i > currentSlide) {
+                    fill.style.width = '0%';
+                } else {
+                    fill.style.width = '0%';
+                    void fill.offsetWidth;
+                    fill.style.transition = `width ${SLIDE_DURATION}ms linear`;
+                    fill.style.width = '100%';
+                }
+            }
+
+            animateCountersInSlide(activeSlide);
+
+            clearTimeout(progressTimer);
+            if (currentSlide < TOTAL_SLIDES - 1) {
+                progressTimer = setTimeout(() => {
+                    nextSlide();
+                }, SLIDE_DURATION);
+            }
+        }
+
+        function nextSlide() {
+            clearTimeout(progressTimer);
+            if (currentSlide < TOTAL_SLIDES - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            clearTimeout(progressTimer);
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            } else {
+                showSlide(0);
+            }
+        }
+
+        // Animasi Counter Angka Berputar
+        function animateCountersInSlide(slideEl) {
+            const counters = slideEl.querySelectorAll('.counter-num');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+
+                if (counter.textContent == formatNumber(target)) return;
+
+                counter.textContent = '0';
+
+                const duration = 2500;
+                const startTimestamp = performance.now();
+
+                const step = (timestamp) => {
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+
+                    const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                    const currentNum = Math.floor(easeProgress * target);
+
+                    counter.textContent = formatNumber(currentNum);
+
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        counter.textContent = formatNumber(target);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            });
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Aksi Tombol Final
+        function claimGift() {
+            alert("Happy Birthday Eva ke-22! 🎉 Coba sekarang cek laci meja belajarmu, kado aslinya ada di sana!");
+        }
+
+        // Mulai Story
+        window.onload = () => {
+            setTimeout(startStory, 300);
+        };
+
+    </script>
+</body>
+
+</html>

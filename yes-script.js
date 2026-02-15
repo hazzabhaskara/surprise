@@ -20,7 +20,7 @@ const reasons = [
     "Karena jalan-jalan sama kamu, mau ke mana aja, selalu seru 🚗",
     "Karena kamu terima aku apa adanya, nggak ada yang perlu ditutup-tutupi 💛",
     "Karena cara kamu peduli ke orang-orang di sekitarmu bikin aku makin kagum 🌻",
-    "Karena baT9
+    "Karena baT9"
 window.addEventListener('load', () => {
     showReason(0)
     launchSmallConfetti()

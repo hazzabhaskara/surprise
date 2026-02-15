@@ -1104,6 +1104,9 @@
                 <em>"I love you more than 22 hearts could ever hold. Happy birthday, Eva!"</em> 🎂✨
             </div>
             <button class="secret-close" onclick="closeSecretModal()">Aku Sayang Kamu! 😍</button>
+            <button class="secret-close"
+                style="margin-top:10px; background:linear-gradient(135deg, #f5c842, #ff6b9d); color:#1a1a2e;"
+                onclick="goToWrapped()">Kejutan Selanjutnya →</button>
         </div>
     </div>
 
@@ -1522,6 +1525,7 @@
         Aku setiap hari bangun tidur masih ga percaya kamu ada.<br>
         <em>I love you, Eva. Selalu.</em> 💖
       </div>
+      <button onclick="goToWrapped()" style="margin-top:20px; padding:14px 32px; background:linear-gradient(135deg, #f5c842, #ff6b9d); border:none; border-radius:50px; color:#1a1a2e; font-weight:800; font-size:1.05rem; cursor:pointer; box-shadow:0 6px 20px rgba(255,107,157,0.4); transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">Kejutan Selanjutnya → ✨</button>
     `;
                 document.getElementById('btn-next').style.display = 'none';
                 document.getElementById('swipe-hint').style.display = 'none';
@@ -1885,6 +1889,17 @@
 
         function closeSecretModal() {
             document.getElementById('secret-modal-overlay').classList.remove('open');
+        }
+
+        // ════════════════════════════════════════════════════════
+        //  GO TO WRAPPED
+        // ════════════════════════════════════════════════════════
+        function goToWrapped() {
+            document.body.style.transition = "opacity 1s ease";
+            document.body.style.opacity = "0";
+            setTimeout(() => {
+                window.location.href = "wrapped.html";
+            }, 1000);
         }
 
         // ════════════════════════════════════════════════════════
